@@ -428,30 +428,35 @@ namespace MBKC.Service.Services.Implementations
             }
         }
 
-        public async Task CreateOrderAsync(Order order)
+        public async Task<Order> CreateOrderAsync(Order order)
         {
+            Order createdOrder = null;
             try
             {
                 Log.Information("Processing in OrderService to create new order.");
-                await this._unitOfWork.OrderRepository.CreateOrderAsync(order);
+                createdOrder = await this._unitOfWork.OrderRepository.CreateOrderAsync(order);
                 Log.Information("Created order successfully in OrderService.");
+                
             } catch(Exception ex)
             {
                 Log.Error("Error in OrderService => Exception: {Message}", ex.Message);
             }
+            return createdOrder;
         }
         
-        public async Task UpdateOrderAsync(Order order)
+        public async Task<Order> UpdateOrderAsync(Order order)
         {
+            Order updatedOrder = null;
             try
             {
                 Log.Information("Processing in OrderService to update new order.");
-                await this._unitOfWork.OrderRepository.UpdateOrderAsync(order);
+                updatedOrder = await this._unitOfWork.OrderRepository.UpdateOrderAsync(order);
                 Log.Information("Updated order successfully in OrderService.");
             } catch(Exception ex)
             {
                 Log.Error("Error in OrderService => Exception: {Message}", ex.Message);
             }
+            return updatedOrder;
         }
     }
 }

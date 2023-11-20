@@ -20,7 +20,7 @@ namespace MBKC.WokerService
         private static IEmailService _emailService;
         private static IUserDeviceService _userDeviceService;
         private static List<string> _failedOrderIds;
-        public static void Main(string[] args)
+        public static async void Main(string[] args)
         {
             IUnitOfWork unitOfWork = new UnitOfWork();
             _storeService = new StoreService(unitOfWork);
@@ -87,25 +87,19 @@ namespace MBKC.WokerService
                                                 {
                                                     //update
                                                     Log.Information("Update existed Order. => Data: {data}");
-                                                    _orderService.UpdateOrderAsync(order);
+                                                    Order updatedOrder = _orderService.UpdateOrderAsync(order).Result;
                                                     string title = $"Đã tới thời gian cho đơn hàng đặt trước: {order.DisplayId}";
                                                     string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
-                                                    Tuple<Order, bool> existedOrderDetailTuple = _orderService.GetOrderAsync(order.OrderPartnerId).Result;
-                                                    Order existedOrderDetail = existedOrderDetailTuple.Item1;
-                                                    bool isSuccessedDetail = existedOrderDetailTuple.Item2;
-                                                    _userDeviceService.PushNotificationAsync(title, body, existedOrderDetail.Id, store.UserDevices);
+                                                    _userDeviceService.PushNotificationAsync(title, body, updatedOrder.Id, store.UserDevices);
                                                 }
                                                 else if (existedOrder is null)
                                                 {
                                                     //create new
                                                     Log.Information("Create new Order. => Data: {data}", order);
-                                                    _orderService.CreateOrderAsync(order);
+                                                    Order createdOrder = _orderService.CreateOrderAsync(order).Result;
                                                     string title = $"Có đơn hàng mới: {order.DisplayId}";
                                                     string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
-                                                    Tuple<Order, bool> existedOrderDetailTuple = _orderService.GetOrderAsync(order.OrderPartnerId).Result;
-                                                    Order existedOrderDetail = existedOrderDetailTuple.Item1;
-                                                    bool isSuccessedDetail = existedOrderDetailTuple.Item2;
-                                                    _userDeviceService.PushNotificationAsync(title, body, existedOrderDetail.Id, store.UserDevices);
+                                                    _userDeviceService.PushNotificationAsync(title, body, createdOrder.Id, store.UserDevices);
                                                 }
                                             }
                                         }

@@ -53,7 +53,7 @@ namespace MBKC.Repository.Repositories
             }
         }
 
-        public async Task CreateOrderAsync(Order order)
+        public async Task<Order> CreateOrderAsync(Order order)
         {
             try
             {
@@ -66,7 +66,10 @@ namespace MBKC.Repository.Repositories
                 HttpResponseMessage response = await this._httpClient.SendAsync(request);
                 if (response.IsSuccessStatusCode)
                 {
+                    string responseText = await response.Content.ReadAsStringAsync();
+                    Order createdOrder = JsonConvert.DeserializeObject<Order>(responseText);
                     Log.Information("Created order successfully in OrderRepository.");
+                    return createdOrder;
                 }
                 else
                 {
@@ -79,7 +82,7 @@ namespace MBKC.Repository.Repositories
             }
         }
         
-        public async Task UpdateOrderAsync(Order order)
+        public async Task<Order> UpdateOrderAsync(Order order)
         {
             try
             {
@@ -92,7 +95,10 @@ namespace MBKC.Repository.Repositories
                 HttpResponseMessage response = await this._httpClient.SendAsync(request);
                 if (response.IsSuccessStatusCode)
                 {
+                    string responseText = await response.Content.ReadAsStringAsync();
+                    Order updatedOrder = JsonConvert.DeserializeObject<Order>(responseText);
                     Log.Information("Updated order successfully in OrderRepository.");
+                    return updatedOrder;
                 }
                 else
                 {

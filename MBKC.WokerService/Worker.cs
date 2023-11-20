@@ -129,18 +129,18 @@ namespace MBKC.WokerService
                                                                 {
                                                                     //update
                                                                     Log.Information("Update existed Order. => Data: {data}");
-                                                                    await this._orderService.UpdateOrderAsync(order);
+                                                                    Order updatedOrder = await this._orderService.UpdateOrderAsync(order);
                                                                     string title = $"Đã tới thời gian cho đơn hàng đặt trước: {order.DisplayId}";
                                                                     string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
-                                                                    await this._userDeviceService.PushNotificationAsync(title, body, order.Id, store.UserDevices);
+                                                                    await this._userDeviceService.PushNotificationAsync(title, body, updatedOrder.Id, store.UserDevices);
                                                                 } else if(existedOrder is null)
                                                                 {
                                                                     //create new
                                                                     Log.Information("Create new Order. => Data: {data}", order);
-                                                                    await this._orderService.CreateOrderAsync(order);
+                                                                    Order createdOrder = await _orderService.CreateOrderAsync(order);
                                                                     string title = $"Có đơn hàng mới: {order.DisplayId}";
                                                                     string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
-                                                                    await this._userDeviceService.PushNotificationAsync(title, body, order.Id, store.UserDevices);
+                                                                    await _userDeviceService.PushNotificationAsync(title, body, createdOrder.Id, store.UserDevices);
                                                                 }
                                                             }
                                                         }
