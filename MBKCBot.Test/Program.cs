@@ -83,7 +83,7 @@ namespace MBKC.WokerService
                                             Log.Information("Existed Order: {Order}", existedOrder);
                                             if (isSuccessed)
                                             {
-                                                if (existedOrder is not null && string.IsNullOrWhiteSpace(existedOrder.OrderPartnerId) == false && existedOrder.Status.ToLower().Equals("upcoming"))
+                                                if (existedOrder is not null && string.IsNullOrWhiteSpace(existedOrder.OrderPartnerId) == false && existedOrder.PartnerOrderStatus.ToLower().Equals("upcoming"))
                                                 {
                                                     //update
                                                     Log.Information("Update existed Order. => Data: {data}");
