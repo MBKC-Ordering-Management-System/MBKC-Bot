@@ -130,16 +130,16 @@ namespace MBKC.WokerService
                                                                     //update
                                                                     Log.Information("Update existed Order. => Data: {data}");
                                                                     await this._orderService.UpdateOrderAsync(order);
-                                                                    string title = "Đã tới thời gian cho đơn hàng đặt trước";
-                                                                    string body = $"Hãy bắt đầu chế biến đơn hàng [Order Id - {order.Id}] đã được đặt trước ngay!";
+                                                                    string title = $"Đã tới thời gian cho đơn hàng đặt trước: {order.DisplayId}";
+                                                                    string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
                                                                     await this._userDeviceService.PushNotificationAsync(title, body, order.Id, store.UserDevices);
                                                                 } else if(existedOrder is null)
                                                                 {
                                                                     //create new
                                                                     Log.Information("Create new Order. => Data: {data}", order);
                                                                     await this._orderService.CreateOrderAsync(order);
-                                                                    string title = "Đơn đặt hàng mới đã tới";
-                                                                    string body = $"Hãy bắt đầu chế biến đơn hàng [Order Id - {order.Id}] mới ngay!";
+                                                                    string title = $"Có đơn hàng mới: {order.DisplayId}";
+                                                                    string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
                                                                     await this._userDeviceService.PushNotificationAsync(title, body, order.Id, store.UserDevices);
                                                                 }
                                                             }

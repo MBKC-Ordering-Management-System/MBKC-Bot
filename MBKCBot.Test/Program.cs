@@ -48,7 +48,7 @@ namespace MBKC.WokerService
                                     //if (grabFoodAuthenticationResponse is not null && grabFoodAuthenticationResponse.Data.Success)
                                     //{
                                     //GetOrdersFromGrabFood ordersFromGrabFood = await _orderService.GetOrdersFromGrabFoodAsync(grabFoodAuthenticationResponse, store, storePartner);
-                                    using StreamReader reader = new("E:\\FPTUniversity\\SU2023\\PRN231\\Projects\\MBKCBot\\MBKCBot.Test\\orderData.json");
+                                    using StreamReader reader = new("E:\\FPTUniversity\\SU2023\\PRN231\\Projects\\MBKC-Bot\\MBKCBot\\MBKCBot.Test\\orderData.json");
                                     var json = reader.ReadToEnd();
                                     List<GrabFoodOrderDetailResponse> list = new List<GrabFoodOrderDetailResponse>();
 
@@ -88,18 +88,24 @@ namespace MBKC.WokerService
                                                     //update
                                                     Log.Information("Update existed Order. => Data: {data}");
                                                     _orderService.UpdateOrderAsync(order);
-                                                    string title = "Đã tới thời gian cho đơn hàng đặt trước";
-                                                    string body = $"Hãy bắt đầu chế biến đơn hàng [Order Id - {order.Id}] đã được đặt trước ngay!";
-                                                    _userDeviceService.PushNotificationAsync(title, body, order.Id, store.UserDevices);
+                                                    string title = $"Đã tới thời gian cho đơn hàng đặt trước: {order.DisplayId}";
+                                                    string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
+                                                    Tuple<Order, bool> existedOrderDetailTuple = _orderService.GetOrderAsync(order.OrderPartnerId).Result;
+                                                    Order existedOrderDetail = existedOrderDetailTuple.Item1;
+                                                    bool isSuccessedDetail = existedOrderDetailTuple.Item2;
+                                                    _userDeviceService.PushNotificationAsync(title, body, existedOrderDetail.Id, store.UserDevices);
                                                 }
                                                 else if (existedOrder is null)
                                                 {
                                                     //create new
                                                     Log.Information("Create new Order. => Data: {data}", order);
                                                     _orderService.CreateOrderAsync(order);
-                                                    string title = "Đơn đặt hàng mới đã tới";
-                                                    string body = $"Hãy bắt đầu chế biến đơn hàng [Order Id - {order.Id}] mới ngay!";
-                                                    _userDeviceService.PushNotificationAsync(title, body, order.Id, store.UserDevices);
+                                                    string title = $"Có đơn hàng mới: {order.DisplayId}";
+                                                    string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
+                                                    Tuple<Order, bool> existedOrderDetailTuple = _orderService.GetOrderAsync(order.OrderPartnerId).Result;
+                                                    Order existedOrderDetail = existedOrderDetailTuple.Item1;
+                                                    bool isSuccessedDetail = existedOrderDetailTuple.Item2;
+                                                    _userDeviceService.PushNotificationAsync(title, body, existedOrderDetail.Id, store.UserDevices);
                                                 }
                                             }
                                         }

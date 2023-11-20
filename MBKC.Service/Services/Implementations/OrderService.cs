@@ -381,6 +381,7 @@ namespace MBKC.Service.Services.Implementations
                                                 (grabFoodOrder.Order.Fare.PromotionDisplay == "" || grabFoodOrder.Order.Fare.PromotionDisplay == "-" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PromotionDisplay)),
                                 Tax = grabFoodOrder.Order.Fare.TaxDisplay == "" ? 0 : float.Parse(grabFoodOrder.Order.Fare.TaxDisplay),
                                 Commission = ((grabFoodOrder.Order.Fare.ReducedPriceDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.ReducedPriceDisplay)) -
+                                             (grabFoodOrder.Order.Fare.PassengerTotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PassengerTotalDisplay))) < 0 ? 0: ((grabFoodOrder.Order.Fare.ReducedPriceDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.ReducedPriceDisplay)) -
                                              (grabFoodOrder.Order.Fare.PassengerTotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PassengerTotalDisplay))),
                                 Cutlery = grabFoodOrder.Order.Cutlery,
                                 Note = grabFoodOrder.Order.Eater.Comment,
