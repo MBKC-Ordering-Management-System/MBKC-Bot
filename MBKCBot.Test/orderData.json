@@ -1,81 +1,43 @@
 {
   "order": {
-    "orderID": "13600578-C6ACRLJZCK5JT6",
+    "orderID": "5586319-C4NKTACFEP4CCA",
     "driver": {
-      "name": "Thạch Cần",
+      "name": "Trần Văn Chính",
       "mobileNumber": "",
       "latitude": 0,
       "longitude": 0,
       "location": null,
-      "avatar": "https://s3-ap-southeast-1.amazonaws.com/myteksi/grab-id/profile_pic/1/-1/YUKLDGkzFSMkQd29PCZlhfjPyms=_2018/11/12_.jpg"
+      "avatar": "https://s3-ap-southeast-1.amazonaws.com/myteksi/grab-id/profile_pic/1/-1/PMZ56Kq0zqpQbPUtapqmqz0fNZM=_2023/07/03_.jpg"
     },
     "eater": {
       "name": "***",
       "mobileNumber": "",
       "comment": "",
       "address": {
-        "address": "Ngo Van, 1K So St, P.13, Q.4, Hồ Chí Minh, 70000, Vietnam (1K Ngô Văn Sở - P13 -Q4)",
-        "keywords": "1K, NGÔ VĂN SỞ"
+        "address": "Đường 12b, P.3, Q.4, Hồ Chí Minh, 70000, Vietnam",
+        "keywords": "Ward 3 Apartment - Block B5"
       }
     },
     "itemInfo": {
-      "count": 8,
+      "count": 1,
       "items": [
         {
-          "name": "Espresso sữa",
-          "quantity": 6,
+          "name": "Passio Caramel",
+          "quantity": 1,
           "fare": {
             "currencySymbol": "₫",
-            "priceDisplay": "150.000",
-            "originalItemPriceDisplay": "150.000",
-            "beforeAdjustedPriceDisplay": "150.000"
+            "priceDisplay": "49.000",
+            "originalItemPriceDisplay": "49.000",
+            "beforeAdjustedPriceDisplay": "49.000"
           },
-          "comment": "",
+          "comment": "Làm giùm chị 1 ly passiopuccino size L, không kem, không đường, xay đặc nhiều đá",
           "modifierGroups": [
             {
-              "modifierGroupID": "VNMOD20220125154311035735",
+              "modifierGroupID": "VNMOD20220125154311052935",
               "modifierGroupName": "Chọn size",
               "modifiers": [
                 {
-                  "modifierID": "VNMOD20220125154312130344",
-                  "modifierName": "Size M",
-                  "priceDisplay": "0",
-                  "quantity": 1,
-                  "revampedPriceDisplay": "0",
-                  "editedStatus": 0
-                }
-              ]
-            }
-          ],
-          "discountInfo": null,
-          "itemID": "VNITE20220125154311163367",
-          "editedStatus": 0,
-          "weight": null,
-          "itemCode": "",
-          "specialItemType": "",
-          "soldByWeight": false,
-          "outOfStockInstruction": null,
-          "parentID": "",
-          "parentName": "",
-          "skuID": ""
-        },
-        {
-          "name": "Chanh tuyết",
-          "quantity": 2,
-          "fare": {
-            "currencySymbol": "₫",
-            "priceDisplay": "70.000",
-            "originalItemPriceDisplay": "70.000",
-            "beforeAdjustedPriceDisplay": "70.000"
-          },
-          "comment": "",
-          "modifierGroups": [
-            {
-              "modifierGroupID": "VNMOD20220125154311018862",
-              "modifierGroupName": "Chọn size",
-              "modifiers": [
-                {
-                  "modifierID": "VNMOD20220125154312094831",
+                  "modifierID": "VNMOD20220125154312024969",
                   "modifierName": "Size S",
                   "priceDisplay": "0",
                   "quantity": 1,
@@ -86,7 +48,7 @@
             }
           ],
           "discountInfo": null,
-          "itemID": "VNITE20220125154311107187",
+          "itemID": "VNITE20220125154311076509",
           "editedStatus": 0,
           "weight": null,
           "itemCode": "",
@@ -104,21 +66,21 @@
       "currencySymbol": "₫",
       "totalInCent": 0,
       "adjustmentByDriverInCent": 0,
-      "totalDisplay": "220.000",
-      "subTotalDisplay": "220.000",
+      "totalDisplay": "49.000",
+      "subTotalDisplay": "49.000",
       "taxDisplay": "0",
       "adjustmentByDriverDisplay": "",
-      "promotionDisplay": "41.000",
-      "deliveryFeeDisplay": "20.000",
-      "passengerTotalDisplay": "199.000",
+      "promotionDisplay": "-",
+      "deliveryFeeDisplay": "16.000",
+      "passengerTotalDisplay": "65.000",
       "totalDiscountAmountDisplay": "",
-      "reducedPriceDisplay": "190.000",
-      "revampedSubtotalDisplay": "220.000",
+      "reducedPriceDisplay": "74.000",
+      "revampedSubtotalDisplay": "49.000",
       "cancelledDisplay": "0",
       "taxRate": "0.0000",
       "merchantChargeDisplay": "",
       "isIncludeMerchantChargeTax": false,
-      "subtotalIncludeMerchantCharge": "220.000",
+      "subtotalIncludeMerchantCharge": "49.000",
       "chargeFeeDescription": {
         "en": "Restaurant packaging charge",
         "id": "Biaya kemasan",
@@ -127,17 +89,17 @@
         "vi": "Phí đồ gói mang về",
         "zh": "商家包装费"
       },
-      "smallOrderFeeDisplay": "0"
+      "smallOrderFeeDisplay": "3.000"
     },
     "times": {
-      "createdAt": "2023-11-18T02:01:56Z",
-      "deliveredAt": "2023-11-18T02:13:53Z",
-      "completedAt": "2023-11-18T02:17:07Z",
-      "expiredAt": "2023-11-18T02:06:56Z",
-      "acceptedAt": "2023-11-18T02:02:03Z",
+      "createdAt": "2023-11-03T02:54:05Z",
+      "deliveredAt": "2023-11-03T03:04:58Z",
+      "completedAt": "2023-11-03T03:11:26Z",
+      "expiredAt": "2023-11-03T02:59:05Z",
+      "acceptedAt": "2023-11-03T02:54:14Z",
       "cancelledAt": null,
       "readyAt": null,
-      "displayedAt": "2023-11-18T02:04:24Z",
+      "displayedAt": "2023-11-03T02:55:52Z",
       "driverArriveRestoAt": null
     },
     "state": "COMPLETED",
@@ -147,8 +109,8 @@
     "deliveryTaskpoolStatus": "COMPLETED",
     "preparationTaskpoolStatus": "COMPLETED",
     "cancelCode": 0,
-    "displayID": "GF-523",
-    "bookingCode": "A-5ME6LVNGWGU5",
+    "displayID": "GF-327",
+    "bookingCode": "A-5KGHTHLGWGW7",
     "paymentMethod": "Cashless",
     "acceptedViaCall": false,
     "acceptedViaAA": true,
@@ -190,16 +152,16 @@
       "paxDistanceToMex": 0
     },
     "isBusyModeOrder": false,
-    "busyModeOrderPickupTime": "2023-11-18T02:01:56.360003331Z",
+    "busyModeOrderPickupTime": "2023-11-03T02:54:05.88823549Z",
     "busyModeApproach": 0,
     "payMerchant": false,
     "cancelledMsg": "",
-    "orderFlags": 4035225279008868356,
-    "orderStatsFlags": 33,
+    "orderFlags": 4035225279009390596,
+    "orderStatsFlags": 40,
     "receiptFlags": 0,
     "dineInInfo": null,
     "chatroomInfo": {
-      "roomID": "26091bac740e0d709efeb74640203ac4",
+      "roomID": "23510c6955cf9026366bce8c2627d37d",
       "status": 0
     },
     "membershipID": "",
@@ -207,16 +169,14 @@
       "supportMcor": false,
       "isEditable": false,
       "correctedOrderReadyAt": null,
-      "estimatedOrderReadyAt": "2023-11-18T02:12:28Z",
+      "estimatedOrderReadyAt": "2023-11-03T03:02:23Z",
       "driverCloseToPickingUp": false,
-      "maxOrderReadyAt": "2023-11-18T02:49:24Z"
+      "maxOrderReadyAt": "2023-11-03T03:40:52Z"
     },
     "mexReimbursementInfo": null,
     "displayHighlights": {
-      "highlightItemCount": true,
-      "missingItemIDs": [
-        "show-tip-item"
-      ]
+      "highlightItemCount": false,
+      "missingItemIDs": null
     },
     "giftInfo": null,
     "orderBookings": null,

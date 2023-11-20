@@ -293,7 +293,7 @@ namespace MBKC.Service.Services.Implementations
                                         {
                                             isFailedOrder = false;
                                             PartnerProduct partnerProductInModifier = null;
-                                            if (storePartner.PartnerProducts.Where(x => x.ProductCode.ToLower().Equals(modifier.ModifierId.ToLower())).Count() > 1 && parentProductId is not null)
+                                            if (storePartner.PartnerProducts.Where(x => x.ProductCode.ToLower().Equals(modifier.ModifierId.ToLower())).Count() >= 1 && parentProductId is not null)
                                             {
                                                 partnerProductInModifier = storePartner.PartnerProducts.FirstOrDefault(x => x.ProductCode.ToLower().Equals(modifier.ModifierId.ToLower()) && x.Product.ParentProductId == parentProductId);
                                             }

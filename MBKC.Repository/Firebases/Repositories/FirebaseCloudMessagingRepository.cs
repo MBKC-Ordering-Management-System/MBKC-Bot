@@ -1,4 +1,6 @@
-﻿using FirebaseAdmin.Messaging;
+﻿using FirebaseAdmin;
+using FirebaseAdmin.Messaging;
+using Google.Apis.Auth.OAuth2;
 using MBKC.Repository.Firebases.Models;
 using MBKC.Repository.GrabFoods.Models;
 using MBKC.Repository.Models;
@@ -27,19 +29,26 @@ namespace MBKC.Repository.Firebases.Repositories
                                   .SetBasePath(Directory.GetCurrentDirectory())
                                   .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             IConfigurationRoot configuration = builder.Build();
-            return new FirebaseCloudMessaging()
+            FirebaseCloudMessaging firebaseCloudMessaging = new FirebaseCloudMessaging()
             {
                 Logo = configuration.GetSection("FirebaseCloudMessaging:Logo").Value,
                 ClickAction = configuration.GetSection("FirebaseCloudMessaging:ClickAction").Value,
                 Screen = configuration.GetSection("FirebaseCloudMessaging:Screen").Value
 
             };
+            return firebaseCloudMessaging;
         }
 
-        public async Task PushNotificationAsync(string title, string body, string fcmToken, int idOrder)
+        public void PushNotification(string title, string body, string fcmToken, int idOrder)
         {
             try
             {
+                FileInfo fileInfo = new FileInfo("admin_sdk.json");
+                string fullPath = fileInfo.FullName;
+                FirebaseApp.Create(new AppOptions()
+                {
+                    Credential = GoogleCredential.FromFile(fileInfo.FullName)
+                });
                 FirebaseCloudMessaging firebaseCloudMessaging = GetFirebaseCloudMessaging();
                 Message message = new Message()
                 {
@@ -60,7 +69,7 @@ namespace MBKC.Repository.Firebases.Repositories
                     },
                 };
 
-                string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
+                string response = FirebaseMessaging.DefaultInstance.SendAsync(message).Result;
                 Log.Information("Successfully sent mesage: " + response);
             }
             catch (Exception ex)

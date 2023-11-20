@@ -39,7 +39,7 @@ namespace MBKC.Service.Services.Implementations
                             {
                                 userDeviceId = userDevice.UserDeviceId;
                                 count++;
-                                await this._unitOfWork.FirebaseCloudMessagingRepository.PushNotificationAsync(title, body, userDevice.FCMToken, idOrder);
+                                this._unitOfWork.FirebaseCloudMessagingRepository.PushNotification(title, body, userDevice.FCMToken, idOrder);
                             }
                         }
                         catch (AggregateException ex)
