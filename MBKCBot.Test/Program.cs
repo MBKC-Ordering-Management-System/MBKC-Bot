@@ -20,7 +20,7 @@ namespace MBKC.WokerService
         private static IEmailService _emailService;
         private static IUserDeviceService _userDeviceService;
         private static List<string> _failedOrderIds;
-        public static async void Main(string[] args)
+        public static void Main(string[] args)
         {
             IUnitOfWork unitOfWork = new UnitOfWork();
             _storeService = new StoreService(unitOfWork);
