@@ -1,0 +1,188 @@
+{
+  "order": {
+    "orderID": "273258247-C4NHEP4TVKNBEA",
+    "driver": {
+      "name": "Trần Ngọc Hạnh",
+      "mobileNumber": "",
+      "latitude": 0,
+      "longitude": 0,
+      "location": null,
+      "avatar": "https://s3-ap-southeast-1.amazonaws.com/myteksi/grab-id/profile_pic/1/-1/HHJJstwDEv4SRrVb4Iwpe8yZVug=_2022/12/07_.jpg"
+    },
+    "eater": {
+      "name": "***",
+      "mobileNumber": "",
+      "comment": "",
+      "address": {
+        "address": "46 Nguyen Tat Thanh St., P.13, Q.4, Hồ Chí Minh, 70000, Vietnam",
+        "keywords": "46 Nguyen Tat Thanh St."
+      }
+    },
+    "itemInfo": {
+      "count": 1,
+      "items": [
+        {
+          "name": "Espresso đá",
+          "quantity": 1,
+          "fare": {
+            "currencySymbol": "₫",
+            "priceDisplay": "35.000",
+            "originalItemPriceDisplay": "25.000",
+            "beforeAdjustedPriceDisplay": "25.000"
+          },
+          "comment": "Không đường",
+          "modifierGroups": [
+            {
+              "modifierGroupID": "VNMOD20220125154311035735",
+              "modifierGroupName": "Chọn size",
+              "modifiers": [
+                {
+                  "modifierID": "VNMOD20220125154311067016",
+                  "modifierName": "Size L",
+                  "priceDisplay": "10.000",
+                  "quantity": 1,
+                  "revampedPriceDisplay": "10.000",
+                  "editedStatus": 0
+                }
+              ]
+            }
+          ],
+          "discountInfo": null,
+          "itemID": "VNITE20220125154311019686",
+          "editedStatus": 0,
+          "weight": null,
+          "itemCode": "",
+          "specialItemType": "",
+          "soldByWeight": false,
+          "outOfStockInstruction": null,
+          "parentID": "",
+          "parentName": "",
+          "skuID": ""
+        }
+      ],
+      "merchantItems": null
+    },
+    "fare": {
+      "currencySymbol": "₫",
+      "totalInCent": 0,
+      "adjustmentByDriverInCent": 0,
+      "totalDisplay": "35.000",
+      "subTotalDisplay": "35.000",
+      "taxDisplay": "0",
+      "adjustmentByDriverDisplay": "",
+      "promotionDisplay": "-",
+      "deliveryFeeDisplay": "16.000",
+      "passengerTotalDisplay": "51.000",
+      "totalDiscountAmountDisplay": "",
+      "reducedPriceDisplay": "66.000",
+      "revampedSubtotalDisplay": "35.000",
+      "cancelledDisplay": "0",
+      "taxRate": "0.0000",
+      "merchantChargeDisplay": "",
+      "isIncludeMerchantChargeTax": false,
+      "subtotalIncludeMerchantCharge": "35.000",
+      "chargeFeeDescription": {
+        "en": "Restaurant packaging charge",
+        "id": "Biaya kemasan",
+        "ms": "Caj pembungkusan dari restoran",
+        "th": "ค่าบรรจุภัณฑ",
+        "vi": "Phí đồ gói mang về",
+        "zh": "商家包装费"
+      },
+      "smallOrderFeeDisplay": "3.000"
+    },
+    "times": {
+      "createdAt": "2023-10-31T03:42:31Z",
+      "deliveredAt": "2023-10-31T03:47:56Z",
+      "completedAt": "2023-10-31T03:52:54Z",
+      "expiredAt": "2023-10-31T03:47:31Z",
+      "acceptedAt": "2023-10-31T03:42:37Z",
+      "cancelledAt": null,
+      "readyAt": null,
+      "displayedAt": "2023-10-31T03:42:48Z",
+      "driverArriveRestoAt": null
+    },
+    "state": "COMPLETED",
+    "merchant": {
+      "ID": "5-CYXHWBLVJJUFFA"
+    },
+    "deliveryTaskpoolStatus": "COMPLETED",
+    "preparationTaskpoolStatus": "COMPLETED",
+    "cancelCode": 0,
+    "displayID": "GF-373",
+    "bookingCode": "A-5K4AR55GWHSQ",
+    "paymentMethod": "Cash",
+    "acceptedViaCall": false,
+    "acceptedViaAA": true,
+    "acknowledgedForAA": false,
+    "qsrModelType": 0,
+    "hasPromo": false,
+    "receiptAdditionalInfo": {
+      "supportFeatureFlags": {
+        "showCashToCollect": false
+      },
+      "printedCount": 0
+    },
+    "allowComplete": false,
+    "isTakeawayOrder": false,
+    "orderLevelDiscounts": null,
+    "flags": {
+      "showReceiptEaterAddress": false,
+      "showForceCompleteButton": false,
+      "hideOrderDriverInfo": false,
+      "isPrintOrderRevampReceipt": true,
+      "isGrabInitiatedSplitOrder": false
+    },
+    "scheduledOrderInfo": null,
+    "isLargeOrder": false,
+    "isEditable": false,
+    "isOrderEdited": false,
+    "isOrderWithFriends": false,
+    "uneditableReason": 10,
+    "cutlery": 2,
+    "cancelBy": "",
+    "cancelRole": "",
+    "leadsGenData": {
+      "isDeliverByMex": false,
+      "isOrderValueLow": false,
+      "deliveryFee": "",
+      "timeLeftToEnableCompleteButton": 0,
+      "geAllocationStatus": 0,
+      "grabExpressDriver": null,
+      "paxDistanceToMex": 0
+    },
+    "isBusyModeOrder": false,
+    "busyModeOrderPickupTime": "2023-10-31T03:42:31.129842444Z",
+    "busyModeApproach": 0,
+    "payMerchant": false,
+    "cancelledMsg": "",
+    "orderFlags": 4035225279009390597,
+    "orderStatsFlags": 16777256,
+    "receiptFlags": 0,
+    "dineInInfo": null,
+    "chatroomInfo": {
+      "roomID": "0a2988e9b7c8fe4c874a965333b1c6f7",
+      "status": 0
+    },
+    "membershipID": "",
+    "mcorInfo": {
+      "supportMcor": false,
+      "isEditable": false,
+      "correctedOrderReadyAt": null,
+      "estimatedOrderReadyAt": "2023-10-31T03:49:44Z",
+      "driverCloseToPickingUp": false,
+      "maxOrderReadyAt": "2023-10-31T04:27:48Z"
+    },
+    "mexReimbursementInfo": null,
+    "displayHighlights": {
+      "highlightItemCount": false,
+      "missingItemIDs": null
+    },
+    "giftInfo": null,
+    "orderBookings": null,
+    "incidents": {
+      "hasError": false,
+      "data": []
+    }
+  }
+}
