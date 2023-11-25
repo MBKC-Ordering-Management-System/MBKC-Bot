@@ -124,22 +124,28 @@ namespace MBKC.WokerService
                                                             bool isSuccessed = existedOrderTuple.Item2;
                                                             Log.Information("Existed Order: {Order}", existedOrder);
                                                             if (isSuccessed)
-                                                            { 
+                                                            {
                                                                 if (existedOrder is not null && string.IsNullOrWhiteSpace(existedOrder.OrderPartnerId) == false && existedOrder.PartnerOrderStatus.ToLower().Equals("upcoming"))
                                                                 {
                                                                     //update
                                                                     Log.Information("Update existed Order. => Data: {data}");
-                                                                    Order updatedOrder = await this._orderService.UpdateOrderAsync(order);
+                                                                    Order updatedOrder = await _orderService.UpdateOrderAsync(order);
                                                                     string title = $"Đã tới thời gian cho đơn hàng đặt trước: {order.DisplayId}";
                                                                     string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
-                                                                    await this._userDeviceService.PushNotificationAsync(title, body, updatedOrder.Id, store.UserDevices);
-                                                                } else if(existedOrder is null)
+                                                                    await _userDeviceService.PushNotificationAsync(title, body, updatedOrder.Id, store.UserDevices);
+                                                                }
+                                                                else if (existedOrder is null)
                                                                 {
                                                                     //create new
                                                                     Log.Information("Create new Order. => Data: {data}", order);
                                                                     Order createdOrder = await _orderService.CreateOrderAsync(order);
                                                                     string title = $"Có đơn hàng mới: {order.DisplayId}";
                                                                     string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
+                                                                    if (createdOrder.PartnerOrderStatus.ToLower().Equals("upcoming"))
+                                                                    {
+                                                                        title = $"Có đơn hàng đặt trước mới: {order.DisplayId}";
+                                                                        body = $"Vui lòng chờ đến khi thời gian chuẩn bị bắt đầu.";
+                                                                    }
                                                                     await _userDeviceService.PushNotificationAsync(title, body, createdOrder.Id, store.UserDevices);
                                                                 }
                                                             }

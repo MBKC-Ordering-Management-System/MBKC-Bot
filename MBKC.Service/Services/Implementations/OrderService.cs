@@ -188,7 +188,8 @@ namespace MBKC.Service.Services.Implementations
                                              (grabFoodOrder.Order.Fare.PassengerTotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PassengerTotalDisplay))),
                                 Cutlery = grabFoodOrder.Order.Cutlery,
                                 Note = grabFoodOrder.Order.Eater.Comment,
-                                PaymentMethod = grabFoodOrder.Order.PaymentMethod
+                                PaymentMethod = grabFoodOrder.Order.PaymentMethod,
+                                StorePartnerCommission = storePartner.Commission
                             };
                             orders.Add(newOrder);
                         }
@@ -203,11 +204,6 @@ namespace MBKC.Service.Services.Implementations
                     Orders = orders,
                     FailedOrders = failedOrders
                 };
-                //send email list failed order
-
-                //create list update (if exsited) and list create (if not exist)
-
-                //
             }
             catch (Exception ex)
             {
@@ -221,37 +217,11 @@ namespace MBKC.Service.Services.Implementations
         {
             try
             {
-                /*List<GrabFoodOrderDetailResponse> grabFoodOrderDetails = new List<GrabFoodOrderDetailResponse>();
-                Log.Information("Processing in OrderService to get Order's Ids.");
-                List<string> upcomingOrderIds = await this._unitOfWork.GrabFoodRepository.GetUpcomingOrderIdsAsync(grabFoodAuthentication);
-                Log.Information("Getting Upcoming Order's Ids Successfully in OrderService. => Data: {Data}", JsonConvert.SerializeObject(upcomingOrderIds));
-                if (upcomingOrderIds is not null && upcomingOrderIds.Count > 0)
-                {
-                    foreach (var orderId in upcomingOrderIds)
-                    {
-                        GrabFoodOrderDetailResponse grabFoodOrderDetail = await this._unitOfWork.GrabFoodRepository.GetOrderAsync(grabFoodAuthentication, orderId);
-                        grabFoodOrderDetail.Order.Status = "Upcoming";
-                        grabFoodOrderDetails.Add(grabFoodOrderDetail);
-                    }
-                }
-
-                List<string> preparingOrderIds = await this._unitOfWork.GrabFoodRepository.GetPreparingOrderIdsAsync(grabFoodAuthentication);
-                Log.Information("Getting Preparing Order's Ids Successfully in OrderService. => Data: {Data}", JsonConvert.SerializeObject(preparingOrderIds));
-                if (preparingOrderIds is not null && preparingOrderIds.Count > 0)
-                {
-                    foreach (var orderId in preparingOrderIds)
-                    {
-                        GrabFoodOrderDetailResponse grabFoodOrderDetail = await this._unitOfWork.GrabFoodRepository.GetOrderAsync(grabFoodAuthentication, orderId);
-                        if (grabFoodOrderDetails.Any(x => x.Order.OrderId.Equals(grabFoodOrderDetail.Order.OrderId)) == false)
-                        {
-                            grabFoodOrderDetail.Order.Status = "Preparing";
-                            grabFoodOrderDetails.Add(grabFoodOrderDetail);
-                        }
-                    }
-                }
-                Log.Information("Getting Order. Data: {Order}", JsonConvert.SerializeObject(grabFoodOrderDetails));*/
                 List<FailedGrabFoodOrderDetail> failedOrders = new List<FailedGrabFoodOrderDetail>();
                 List<Order> orders = new List<Order>();
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Start parse orders.");
+                Console.ResetColor();
                 if (grabFoodOrderDetails is not null && grabFoodOrderDetails.Count > 0)
                 {
                     foreach (var grabFoodOrder in grabFoodOrderDetails)
@@ -394,21 +364,22 @@ namespace MBKC.Service.Services.Implementations
 
                 Log.Information("Getting Order. Data: {Order}", JsonConvert.SerializeObject(orders));
                 Log.Information("Getting Failed Order. Data: {Order}", JsonConvert.SerializeObject(failedOrders));
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Parse orders Successfully.");
+                Console.ResetColor();
 
                 return new GetOrdersFromGrabFood()
                 {
                     Orders = orders,
                     FailedOrders = failedOrders
                 };
-                //send email list failed order
-
-                //create list update (if exsited) and list create (if not exist)
-
-                //
             }
             catch (Exception ex)
             {
                 Log.Error("Error in OrderService => Exception: {Message}", ex.Message);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Parse orders Failed.");
+                Console.ResetColor();
                 return null;
             }
         }
@@ -434,12 +405,21 @@ namespace MBKC.Service.Services.Implementations
             try
             {
                 Log.Information("Processing in OrderService to create new order.");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Start create Order.");
+                Console.ResetColor();
                 createdOrder = await this._unitOfWork.OrderRepository.CreateOrderAsync(order);
                 Log.Information("Created order successfully in OrderService.");
-                
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Created Order Sucessfully.");
+                Console.ResetColor();
+
             } catch(Exception ex)
             {
                 Log.Error("Error in OrderService => Exception: {Message}", ex.Message);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Created Order Failed.");
+                Console.ResetColor();
             }
             return createdOrder;
         }
@@ -450,11 +430,20 @@ namespace MBKC.Service.Services.Implementations
             try
             {
                 Log.Information("Processing in OrderService to update new order.");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Start update order orders.");
+                Console.ResetColor();
                 updatedOrder = await this._unitOfWork.OrderRepository.UpdateOrderAsync(order);
                 Log.Information("Updated order successfully in OrderService.");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Updated Order successfully.");
+                Console.ResetColor();
             } catch(Exception ex)
             {
                 Log.Error("Error in OrderService => Exception: {Message}", ex.Message);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Updated Order Failed.");
+                Console.ResetColor();
             }
             return updatedOrder;
         }

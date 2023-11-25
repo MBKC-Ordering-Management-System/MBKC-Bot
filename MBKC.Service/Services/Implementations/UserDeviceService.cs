@@ -22,6 +22,9 @@ namespace MBKC.Service.Services.Implementations
         {
             try
             {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Start push notification.");
+                Console.ResetColor();
                 bool isFinished = false;
                 int count = 0;
                 if (userDevices is not null && userDevices.Count > 0)
@@ -52,11 +55,17 @@ namespace MBKC.Service.Services.Implementations
                             }
                         }
                     } while (isFinished == false);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Push notification successfully.");
+                    Console.ResetColor();
                 }
             }
             catch (Exception ex)
             {
                 Log.Error("Error in UserDeviceService. Error: {Error}", ex.Message);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Push notification Failed.");
+                Console.ResetColor();
             }
         }
     }

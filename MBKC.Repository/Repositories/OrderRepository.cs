@@ -91,7 +91,8 @@ namespace MBKC.Repository.Repositories
                 Log.Information("Processing in OrderRepository to Call API from MBKC Private API");
                 request.Headers.Accept.Clear();
                 request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                request.Content = new StringContent(JsonConvert.SerializeObject(order), Encoding.UTF8, "application/json");
+                UpdateOrderRequest updateOrderRequest = new UpdateOrderRequest() { Status = order.PartnerOrderStatus };
+                request.Content = new StringContent(JsonConvert.SerializeObject(updateOrderRequest), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await this._httpClient.SendAsync(request);
                 if (response.IsSuccessStatusCode)
                 {
@@ -102,7 +103,7 @@ namespace MBKC.Repository.Repositories
                 }
                 else
                 {
-                    throw new Exception($"Accessing to MBKC Private API Failed in OrderRepository Failed. {response.Content.ReadAsStringAsync()}");
+                    throw new Exception($"Accessing to MBKC Private API Failed in OrderRepository Failed. {response.Content.ReadAsStringAsync().Result}");
                 }
             }
             catch (Exception ex)

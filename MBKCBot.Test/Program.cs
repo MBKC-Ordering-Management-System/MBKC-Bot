@@ -30,12 +30,71 @@ namespace MBKC.WokerService
             _userDeviceService = new UserDeviceService(unitOfWork);
             _failedOrderIds = new List<string>();
 
+            bool isSucceeded = false;
+            int storeId = 0;
+            do
+            {
+                try
+                {
+                    Console.WriteLine("Type a Store Id: ");
+                    storeId = Convert.ToInt32(Console.ReadLine());
+                    isSucceeded = true;
+                    if (storeId <= 0)
+                    {
+                        Console.WriteLine("Please type store id that is greater than 0.");
+                        isSucceeded = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Please type valid integer number.");
+                    isSucceeded = false;
+                }
+            } while (isSucceeded == false);
+            isSucceeded = false;
+            string statusOrder = "";
+            do
+            {
+                try
+                {
+                    Console.WriteLine("Choose a Order Status: \n" +
+                "1: Preparing\n" +
+                "2: Upcoming");
+                    int numberOfStatus = Convert.ToInt32(Console.ReadLine());
+                    switch (numberOfStatus)
+                    {
+                        case 1:
+                            {
+                                statusOrder = "preparing";
+                                isSucceeded = true;
+                                break;
+                            }
+                        case 2:
+                            {
+                                statusOrder = "upcoming";
+                                isSucceeded = true;
+                                break;
+                            }
+                    }
+                    if (isSucceeded == false)
+                    {
+                        Console.WriteLine("Please choose 1 or 2 option!");
+                        isSucceeded = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Please type valid integer number.");
+                    isSucceeded = false;
+                }
+            } while (isSucceeded == false);
+
             List<Store> stores = _storeService.GetStoresAsync().Result;
             if (stores is not null)
             {
                 foreach (var store in stores)
                 {
-                    if (store.StoreId == 1)
+                    if (store.StoreId == storeId)
                     {
                         List<FailedOrder> failedOrders = new List<FailedOrder>();
                         if (store.StorePartners is not null && store.StorePartners.Count() > 0)
@@ -44,16 +103,14 @@ namespace MBKC.WokerService
                             {
                                 if (storePartner.PartnerId == (int)PartnerEnum.Type.GRABFOOD)
                                 {
-                                    //GrabFoodAuthenticationResponse grabFoodAuthenticationResponse = await _authenticationService.LoginAsync(storePartner.UserName, storePartner.Password);
-                                    //if (grabFoodAuthenticationResponse is not null && grabFoodAuthenticationResponse.Data.Success)
-                                    //{
-                                    //GetOrdersFromGrabFood ordersFromGrabFood = await _orderService.GetOrdersFromGrabFoodAsync(grabFoodAuthenticationResponse, store, storePartner);
-                                    using StreamReader reader = new("E:\\FPTUniversity\\SU2023\\PRN231\\Projects\\MBKC-Bot\\MBKCBot\\MBKCBot.Test\\orderData.json");
+                                    FileInfo fileInfo = new FileInfo("orderData.json");
+                                    string fullPath = fileInfo.FullName;
+                                    using StreamReader reader = new(fullPath);
                                     var json = reader.ReadToEnd();
                                     List<GrabFoodOrderDetailResponse> list = new List<GrabFoodOrderDetailResponse>();
 
                                     GrabFoodOrderDetailResponse grabFoodOrderDetailResponse = JsonConvert.DeserializeObject<GrabFoodOrderDetailResponse>(json);
-                                    grabFoodOrderDetailResponse.Order.Status = "Preparing";
+                                    grabFoodOrderDetailResponse.Order.Status = statusOrder;
                                     list.Add(grabFoodOrderDetailResponse);
                                     GetOrdersFromGrabFood ordersFromGrabFood = _orderService.GetOrdersFromGrabFoodAsync(list, store, storePartner).Result;
 
@@ -80,13 +137,11 @@ namespace MBKC.WokerService
                                             Tuple<Order, bool> existedOrderTuple = _orderService.GetOrderAsync(order.OrderPartnerId).Result;
                                             Order existedOrder = existedOrderTuple.Item1;
                                             bool isSuccessed = existedOrderTuple.Item2;
-                                            Log.Information("Existed Order: {Order}", existedOrder);
                                             if (isSuccessed)
                                             {
                                                 if (existedOrder is not null && string.IsNullOrWhiteSpace(existedOrder.OrderPartnerId) == false && existedOrder.PartnerOrderStatus.ToLower().Equals("upcoming"))
                                                 {
                                                     //update
-                                                    Log.Information("Update existed Order. => Data: {data}");
                                                     Order updatedOrder = _orderService.UpdateOrderAsync(order).Result;
                                                     string title = $"Đã tới thời gian cho đơn hàng đặt trước: {order.DisplayId}";
                                                     string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
@@ -95,24 +150,28 @@ namespace MBKC.WokerService
                                                 else if (existedOrder is null)
                                                 {
                                                     //create new
-                                                    Log.Information("Create new Order. => Data: {data}", order);
                                                     Order createdOrder = _orderService.CreateOrderAsync(order).Result;
                                                     string title = $"Có đơn hàng mới: {order.DisplayId}";
                                                     string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
+                                                    if (createdOrder.PartnerOrderStatus.ToLower().Equals("upcoming"))
+                                                    {
+                                                        title = $"Có đơn hàng đặt trước mới: {order.DisplayId}";
+                                                        body = $"Vui lòng chờ đến khi thời gian chuẩn bị bắt đầu.";
+                                                    }
                                                     _userDeviceService.PushNotificationAsync(title, body, createdOrder.Id, store.UserDevices);
                                                 }
                                             }
                                         }
                                     }
-                                    Log.Information("Worker running at: {time} - failed orders: {Data}", DateTimeOffset.Now, JsonConvert.SerializeObject(failedOrders));
-                                    Log.Information("Worker running at: {time} - orders: {Data}", DateTimeOffset.Now, JsonConvert.SerializeObject(ordersFromGrabFood.Orders));
-                                    //}
                                 }
                             }
                             if (failedOrders.Count > 0)
                             {
                                 //send email
-                                Log.Information("Store Fail: {store}", store);
+                                Log.Information("Start Send Email about Failed Orders.");
+                                Console.ForegroundColor = ConsoleColor.Blue;
+                                Console.WriteLine("Start Send Email about Failed Orders.");
+                                Console.ResetColor();
                                 _emailService.SendEmailForFailedOrderAsync(failedOrders, store.StoreManagerEmail);
                             }
                         }

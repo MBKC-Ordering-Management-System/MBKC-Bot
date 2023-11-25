@@ -13,6 +13,7 @@ namespace MBKC.Repository.Models
         public DateTime CreatedDate { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public float Commission { get; set; }
         public Partner Partner { get; set; }
         public List<PartnerProduct> PartnerProducts { get; set; }
     }

@@ -25,12 +25,21 @@ namespace MBKC.Service.Services.Implementations
             try
             {
                 Log.Information("Processing in StoreService to get stores.");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Start Getting Stores.");
+                Console.ResetColor();
                 List<Store> stores = await this._unitOfWork.StoreRepository.GetStoresAsync();
                 Log.Information("Getting stores successfully in StoreService. => Data: {Data}", JsonConvert.SerializeObject(stores));
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Get Stores Successfully.");
+                Console.ResetColor();
                 return stores;
             } catch(Exception ex)
             {
                 Log.Error("Error in StoreService => Exception: {Message}", ex.Message);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Get Stores Failed.");
+                Console.ResetColor();
                 return null;
             }
         }

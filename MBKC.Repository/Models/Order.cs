@@ -28,6 +28,8 @@ namespace MBKC.Repository.Models
         public string DisplayId { get; set; }
         public string Address { get; set; }
         public int? Cutlery { get; set; }
+        public string? RejectedReason { get; set; }
+        public float StorePartnerCommission { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
     }
 }

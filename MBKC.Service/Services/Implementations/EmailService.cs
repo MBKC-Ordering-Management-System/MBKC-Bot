@@ -35,9 +35,15 @@ namespace MBKC.Service.Services.Implementations
                 string messageBody = this._unitOfWork.EmailRepository.GetMessageToNotifyNonMappingOrder(receiverEmail, message);
                 await this._unitOfWork.EmailRepository.SendEmailToNotifyNonMappingOrder(receiverEmail, messageBody, failedOrdersAttachment);
                 Log.Information("Sent Email Successfully in EmailService.");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Sent Email about Failed Orders Successfully.");
+                Console.ResetColor();
             } catch(Exception ex)
             {
                 Log.Error("Error in StoreService => Exception: {Message}", ex.Message);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Sent Email about Failed Orders that is failed.");
+                Console.ResetColor();
             }
         }
     }
