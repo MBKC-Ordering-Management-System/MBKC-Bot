@@ -9,6 +9,6 @@ namespace MBKC.Service.Services.Interfaces
 {
     public interface IAuthenticationService
     {
-        public Task<GrabFoodAuthenticationResponse> LoginAsync(string username, string password);
+        public Task<GrabFoodAuthenticationResponse> LoginGrabFoodAsync(string username, string password);
     }
 }

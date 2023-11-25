@@ -19,7 +19,7 @@ namespace MBKC.Service.Services.Implementations
             this._unitOfWork = (UnitOfWork)unitOfWork;
         }
 
-        public async Task<GrabFoodAuthenticationResponse> LoginAsync(string username, string password)
+        public async Task<GrabFoodAuthenticationResponse> LoginGrabFoodAsync(string username, string password)
         {
             try
             {

@@ -95,7 +95,7 @@ namespace MBKC.WokerService
                                         {
                                             if (storePartner.PartnerId == (int)PartnerEnum.Type.GRABFOOD)
                                             {
-                                                GrabFoodAuthenticationResponse grabFoodAuthenticationResponse = await this._authenticationService.LoginAsync(storePartner.UserName, storePartner.Password);
+                                                GrabFoodAuthenticationResponse grabFoodAuthenticationResponse = await this._authenticationService.LoginGrabFoodAsync(storePartner.UserName, storePartner.Password);
                                                 if (grabFoodAuthenticationResponse is not null && grabFoodAuthenticationResponse.Data.Success)
                                                 {
                                                     GetOrdersFromGrabFood ordersFromGrabFood = await this._orderService.GetOrdersFromGrabFoodAsync(grabFoodAuthenticationResponse, store, storePartner);
