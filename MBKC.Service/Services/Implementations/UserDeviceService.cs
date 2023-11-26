@@ -45,7 +45,7 @@ namespace MBKC.Service.Services.Implementations
                                 this._unitOfWork.FirebaseCloudMessagingRepository.PushNotification(title, body, userDevice.FCMToken, idOrder);
                             }
                         }
-                        catch (AggregateException ex)
+                        catch (Exception ex)
                         {
                             if (ex.Message.Contains("Requested entity was not found"))
                             {
@@ -64,7 +64,7 @@ namespace MBKC.Service.Services.Implementations
             {
                 Log.Error("Error in UserDeviceService. Error: {Error}", ex.Message);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Push notification Failed.");
+                Console.WriteLine("Push notification Failed." + ex.Message);
                 Console.ResetColor();
             }
         }

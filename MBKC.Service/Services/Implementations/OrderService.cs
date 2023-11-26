@@ -355,7 +355,8 @@ namespace MBKC.Service.Services.Implementations
                                              (grabFoodOrder.Order.Fare.PassengerTotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PassengerTotalDisplay))),
                                 Cutlery = grabFoodOrder.Order.Cutlery,
                                 Note = grabFoodOrder.Order.Eater.Comment,
-                                PaymentMethod = grabFoodOrder.Order.PaymentMethod
+                                PaymentMethod = grabFoodOrder.Order.PaymentMethod,
+                                StorePartnerCommission = storePartner.Commission
                             };
                             orders.Add(newOrder);
                         }
