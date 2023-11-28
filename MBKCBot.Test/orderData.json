@@ -1,54 +1,54 @@
 {
   "order": {
-    "orderID": "146666018-C4NHV3XFAJKEVA",
+    "orderID": "2350338-C6ATKA6FLYCBJX",
     "driver": {
-      "name": "Phạm Duy Thái",
+      "name": "Nguyễn Thanh Nghị",
       "mobileNumber": "",
       "latitude": 0,
       "longitude": 0,
       "location": null,
-      "avatar": "https://s3-ap-southeast-1.amazonaws.com/myteksi/grab-id/profile_pic/1/-1/tsycHh5-zQt8PIeKmvarVhYtHNA=_2019/12/25_.jpg"
+      "avatar": "https://s3-ap-southeast-1.amazonaws.com/myteksi/grab-id/profile_pic/1/-1/vTAeilE94mxlt0E7-t2hDxrkAmI=_2020/10/26_.jpg"
     },
     "eater": {
       "name": "***",
       "mobileNumber": "",
-      "comment": "Nhờ bác tài gửi ở bàn bảo vệ, ghi Phòng A0708, không cần gọi. Cảm ơn bác tài.",
+      "comment": "cổng 3",
       "address": {
-        "address": "207 Nguyen Van Huong St., P.Thảo Điền, Tp.Thủ Đức, Hồ Chí Minh, 70000, Vietnam (207 Nguyen Van Huong, chung cu D’Edge)",
-        "keywords": "D'Edge Apartment"
+        "address": "Street D8, Saigon High Tech Park, P.Long Thạnh Mỹ, Tp.Thủ Đức, Hồ Chí Minh, 70000, Vietnam",
+        "keywords": "Jabil Vietnam Co.,LTD - Duong D8 Gate"
       }
     },
     "itemInfo": {
-      "count": 5,
+      "count": 6,
       "items": [
         {
-          "name": "Americano",
-          "quantity": 1,
+          "name": "Espresso sữa",
+          "quantity": 3,
           "fare": {
             "currencySymbol": "₫",
-            "priceDisplay": "45.000",
-            "originalItemPriceDisplay": "35.000",
-            "beforeAdjustedPriceDisplay": "35.000"
+            "priceDisplay": "75.000",
+            "originalItemPriceDisplay": "75.000",
+            "beforeAdjustedPriceDisplay": "75.000"
           },
-          "comment": "Không da! Please make a hot one. 🥵 cảm ơn nha",
+          "comment": "",
           "modifierGroups": [
             {
-              "modifierGroupID": "VNMOD20220125154358128671",
+              "modifierGroupID": "VNMOD20220125154337147618",
               "modifierGroupName": "Chọn size",
               "modifiers": [
                 {
-                  "modifierID": "VNMOD20220125154358222030",
+                  "modifierID": "VNMOD20220125154337421236",
                   "modifierName": "Size M",
-                  "priceDisplay": "10.000",
+                  "priceDisplay": "0",
                   "quantity": 1,
-                  "revampedPriceDisplay": "10.000",
+                  "revampedPriceDisplay": "0",
                   "editedStatus": 0
                 }
               ]
             }
           ],
           "discountInfo": null,
-          "itemID": "VNITE20220125154358045898",
+          "itemID": "VNITE20220125154336506532",
           "editedStatus": 0,
           "weight": null,
           "itemCode": "",
@@ -61,21 +61,59 @@
         },
         {
           "name": "Espresso sữa",
-          "quantity": 4,
+          "quantity": 1,
           "fare": {
             "currencySymbol": "₫",
-            "priceDisplay": "100.000",
-            "originalItemPriceDisplay": "100.000",
-            "beforeAdjustedPriceDisplay": "100.000"
+            "priceDisplay": "35.000",
+            "originalItemPriceDisplay": "25.000",
+            "beforeAdjustedPriceDisplay": "25.000"
           },
           "comment": "",
           "modifierGroups": [
             {
-              "modifierGroupID": "VNMOD20220125154358118460",
+              "modifierGroupID": "VNMOD20220125154337147618",
               "modifierGroupName": "Chọn size",
               "modifiers": [
                 {
-                  "modifierID": "VNMOD20220125154358237645",
+                  "modifierID": "VNMOD20220125154337206711",
+                  "modifierName": "Size L",
+                  "priceDisplay": "10.000",
+                  "quantity": 1,
+                  "revampedPriceDisplay": "10.000",
+                  "editedStatus": 0
+                }
+              ]
+            }
+          ],
+          "discountInfo": null,
+          "itemID": "VNITE20220125154336506532",
+          "editedStatus": 0,
+          "weight": null,
+          "itemCode": "",
+          "specialItemType": "",
+          "soldByWeight": false,
+          "outOfStockInstruction": null,
+          "parentID": "",
+          "parentName": "",
+          "skuID": ""
+        },
+        {
+          "name": "Bạc xỉu",
+          "quantity": 1,
+          "fare": {
+            "currencySymbol": "₫",
+            "priceDisplay": "25.000",
+            "originalItemPriceDisplay": "25.000",
+            "beforeAdjustedPriceDisplay": "25.000"
+          },
+          "comment": "",
+          "modifierGroups": [
+            {
+              "modifierGroupID": "VNMOD20220125154337147618",
+              "modifierGroupName": "Chọn size",
+              "modifiers": [
+                {
+                  "modifierID": "VNMOD20220125154337421236",
                   "modifierName": "Size M",
                   "priceDisplay": "0",
                   "quantity": 1,
@@ -86,7 +124,45 @@
             }
           ],
           "discountInfo": null,
-          "itemID": "VNITE20220125154358121513",
+          "itemID": "VNITE20220125154336468590",
+          "editedStatus": 0,
+          "weight": null,
+          "itemCode": "",
+          "specialItemType": "",
+          "soldByWeight": false,
+          "outOfStockInstruction": null,
+          "parentID": "",
+          "parentName": "",
+          "skuID": ""
+        },
+        {
+          "name": "Chanh tuyết",
+          "quantity": 1,
+          "fare": {
+            "currencySymbol": "₫",
+            "priceDisplay": "39.000",
+            "originalItemPriceDisplay": "35.000",
+            "beforeAdjustedPriceDisplay": "35.000"
+          },
+          "comment": "",
+          "modifierGroups": [
+            {
+              "modifierGroupID": "VNMOD20220125154337080245",
+              "modifierGroupName": "Chọn size",
+              "modifiers": [
+                {
+                  "modifierID": "VNMOD20220125154337432368",
+                  "modifierName": "Size M",
+                  "priceDisplay": "4.000",
+                  "quantity": 1,
+                  "revampedPriceDisplay": "4.000",
+                  "editedStatus": 0
+                }
+              ]
+            }
+          ],
+          "discountInfo": null,
+          "itemID": "VNITE20220125154336344695",
           "editedStatus": 0,
           "weight": null,
           "itemCode": "",
@@ -104,21 +180,21 @@
       "currencySymbol": "₫",
       "totalInCent": 0,
       "adjustmentByDriverInCent": 0,
-      "totalDisplay": "145.000",
-      "subTotalDisplay": "145.000",
+      "totalDisplay": "174.000",
+      "subTotalDisplay": "174.000",
       "taxDisplay": "0",
       "adjustmentByDriverDisplay": "",
-      "promotionDisplay": "5.000",
+      "promotionDisplay": "23.700",
       "deliveryFeeDisplay": "16.000",
-      "passengerTotalDisplay": "156.000",
+      "passengerTotalDisplay": "166.300",
       "totalDiscountAmountDisplay": "",
-      "reducedPriceDisplay": "147.000",
-      "revampedSubtotalDisplay": "145.000",
+      "reducedPriceDisplay": "157.300",
+      "revampedSubtotalDisplay": "174.000",
       "cancelledDisplay": "0",
       "taxRate": "0.0000",
       "merchantChargeDisplay": "",
       "isIncludeMerchantChargeTax": false,
-      "subtotalIncludeMerchantCharge": "145.000",
+      "subtotalIncludeMerchantCharge": "174.000",
       "chargeFeeDescription": {
         "en": "Restaurant packaging charge",
         "id": "Biaya kemasan",
@@ -130,25 +206,25 @@
       "smallOrderFeeDisplay": "0"
     },
     "times": {
-      "createdAt": "2023-10-31T23:58:05Z",
-      "deliveredAt": "2023-11-01T00:12:08Z",
-      "completedAt": "2023-11-01T00:24:31Z",
-      "expiredAt": "2023-11-01T00:03:05Z",
-      "acceptedAt": "2023-10-31T23:58:11Z",
+      "createdAt": "2023-11-27T01:26:26Z",
+      "deliveredAt": "2023-11-27T01:38:32Z",
+      "completedAt": "2023-11-27T01:47:19Z",
+      "expiredAt": "2023-11-27T01:31:26Z",
+      "acceptedAt": "2023-11-27T01:26:32Z",
       "cancelledAt": null,
       "readyAt": null,
-      "displayedAt": "2023-10-31T23:59:18Z",
+      "displayedAt": "2023-11-27T01:28:50Z",
       "driverArriveRestoAt": null
     },
     "state": "COMPLETED",
     "merchant": {
-      "ID": "5-CZBACCMUNRK2GE"
+      "ID": "5-CZMWBBKKVA2ETX"
     },
     "deliveryTaskpoolStatus": "COMPLETED",
     "preparationTaskpoolStatus": "COMPLETED",
     "cancelCode": 0,
-    "displayID": "GF-589",
-    "bookingCode": "A-5K7Q4CKGWJL9",
+    "displayID": "GF-472",
+    "bookingCode": "A-5NJ5UMMGWGQ3",
     "paymentMethod": "Cashless",
     "acceptedViaCall": false,
     "acceptedViaAA": true,
@@ -190,16 +266,16 @@
       "paxDistanceToMex": 0
     },
     "isBusyModeOrder": false,
-    "busyModeOrderPickupTime": "2023-10-31T23:58:05.270616956Z",
+    "busyModeOrderPickupTime": "2023-11-27T01:26:26.841070578Z",
     "busyModeApproach": 0,
     "payMerchant": false,
     "cancelledMsg": "",
-    "orderFlags": 4035229677055379460,
+    "orderFlags": 4035225279008868356,
     "orderStatsFlags": 33,
     "receiptFlags": 0,
     "dineInInfo": null,
     "chatroomInfo": {
-      "roomID": "950b254222fefa2ceb842f3c173e7295",
+      "roomID": "b24b21415f3711ea10d6fa5d972faae2",
       "status": 0
     },
     "membershipID": "",
@@ -207,9 +283,9 @@
       "supportMcor": false,
       "isEditable": false,
       "correctedOrderReadyAt": null,
-      "estimatedOrderReadyAt": "2023-11-01T00:06:58Z",
+      "estimatedOrderReadyAt": "2023-11-27T01:37:33Z",
       "driverCloseToPickingUp": false,
-      "maxOrderReadyAt": "2023-11-01T00:44:18Z"
+      "maxOrderReadyAt": "2023-11-27T02:13:50Z"
     },
     "mexReimbursementInfo": null,
     "displayHighlights": {

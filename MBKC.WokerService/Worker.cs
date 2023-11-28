@@ -130,23 +130,29 @@ namespace MBKC.WokerService
                                                                     //update
                                                                     Log.Information("Update existed Order. => Data: {data}");
                                                                     Order updatedOrder = await _orderService.UpdateOrderAsync(order);
-                                                                    string title = $"Đã tới thời gian cho đơn hàng đặt trước: {order.DisplayId}";
-                                                                    string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
-                                                                    await _userDeviceService.PushNotificationAsync(title, body, updatedOrder.Id, store.UserDevices);
+                                                                    if (updatedOrder is not null)
+                                                                    {
+                                                                        string title = $"Đã tới thời gian cho đơn hàng đặt trước: {order.DisplayId}";
+                                                                        string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
+                                                                        await _userDeviceService.PushNotificationAsync(title, body, updatedOrder.Id, store.UserDevices);
+                                                                    }
                                                                 }
                                                                 else if (existedOrder is null)
                                                                 {
                                                                     //create new
                                                                     Log.Information("Create new Order. => Data: {data}", order);
                                                                     Order createdOrder = await _orderService.CreateOrderAsync(order);
-                                                                    string title = $"Có đơn hàng mới: {order.DisplayId}";
-                                                                    string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
-                                                                    if (createdOrder.PartnerOrderStatus.ToLower().Equals("upcoming"))
+                                                                    if (createdOrder is not null)
                                                                     {
-                                                                        title = $"Có đơn hàng đặt trước mới: {order.DisplayId}";
-                                                                        body = $"Vui lòng chờ đến khi thời gian chuẩn bị bắt đầu.";
+                                                                        string title = $"Có đơn hàng mới: {order.DisplayId}";
+                                                                        string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
+                                                                        if (createdOrder.PartnerOrderStatus.ToLower().Equals("upcoming"))
+                                                                        {
+                                                                            title = $"Có đơn hàng đặt trước mới: {order.DisplayId}";
+                                                                            body = $"Vui lòng chờ đến khi thời gian chuẩn bị bắt đầu.";
+                                                                        }
+                                                                        await _userDeviceService.PushNotificationAsync(title, body, createdOrder.Id, store.UserDevices);
                                                                     }
-                                                                    await _userDeviceService.PushNotificationAsync(title, body, createdOrder.Id, store.UserDevices);
                                                                 }
                                                             }
                                                         }

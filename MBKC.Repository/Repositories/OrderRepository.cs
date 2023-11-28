@@ -73,7 +73,7 @@ namespace MBKC.Repository.Repositories
                 }
                 else
                 {
-                    throw new Exception($"Accessing to MBKC Private API Failed in OrderRepository Failed. {response.Content.ReadAsStringAsync()}");
+                    throw new Exception($"Accessing to MBKC Private API Failed in OrderRepository Failed. {response.Content.ReadAsStringAsync().Result}");
                 }
             }
             catch (Exception ex)
