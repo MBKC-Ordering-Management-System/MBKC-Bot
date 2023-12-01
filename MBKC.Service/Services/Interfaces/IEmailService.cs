@@ -10,5 +10,6 @@ namespace MBKC.Service.Services.Interfaces
     public interface IEmailService
     {
         public Task SendEmailForFailedOrderAsync(List<FailedOrder> failedOrders, string receiverName);
+        public Task SendEmailForFailedOrderAsync_Tool(List<FailedOrder> failedOrders, string receiverName);
     }
 }

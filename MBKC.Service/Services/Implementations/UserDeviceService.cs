@@ -68,5 +68,57 @@ namespace MBKC.Service.Services.Implementations
                 Console.ResetColor();
             }
         }
+        
+        public async Task PushNotificationAsync_Tool(string title, string body, int idOrder, List<UserDevice> userDevices)
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Start push notification.");
+                Console.ResetColor();
+                bool isFinished = false;
+                int count = 0;
+                if (userDevices is not null && userDevices.Count > 0)
+                {
+                    do
+                    {
+                        int? userDeviceId = null;
+                        try
+                        { 
+                            if (count == userDevices.Count)
+                            {
+                                isFinished = true;
+                            }
+                            foreach (var userDevice in userDevices)
+                            {
+                                userDeviceId = userDevice.UserDeviceId;
+                                count++;
+                                this._unitOfWork.FirebaseCloudMessagingRepository.PushNotification(title, body, userDevice.FCMToken, idOrder);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            if (ex.Message.Contains("Requested entity was not found"))
+                            {
+                                // remove fcm token
+                                await this._unitOfWork.UserDeviceRepository.DeleteUserDeviceAsync(idOrder);
+                                Log.Information("Deleting User Device in UserDeviceService Successfully.");
+                            }
+                        }
+                    } while (isFinished == false);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Push notification successfully.");
+                    Console.ResetColor();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error in UserDeviceService. Error: {Error}", ex.Message);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Push notification Failed." + ex.Message);
+                Console.ResetColor();
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

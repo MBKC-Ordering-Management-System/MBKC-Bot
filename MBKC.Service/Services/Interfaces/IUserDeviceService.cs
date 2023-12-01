@@ -10,5 +10,6 @@ namespace MBKC.Service.Services.Interfaces
     public interface IUserDeviceService
     {
         public Task PushNotificationAsync(string title, string body, int idOrder, List<UserDevice> userDevices);
+        public Task PushNotificationAsync_Tool(string title, string body, int idOrder, List<UserDevice> userDevices);
     }
 }

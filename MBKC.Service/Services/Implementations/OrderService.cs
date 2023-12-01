@@ -385,6 +385,178 @@ namespace MBKC.Service.Services.Implementations
             }
         }
 
+        public async Task<GetOrdersFromGrabFood> GetOrdersFromGrabFoodAsync_Tool(List<GrabFoodOrderDetailResponse> grabFoodOrderDetails, Store store, StorePartner storePartner)
+        {
+            try
+            {
+                List<FailedGrabFoodOrderDetail> failedOrders = new List<FailedGrabFoodOrderDetail>();
+                List<Order> orders = new List<Order>();
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Start parse orders.");
+                Console.ResetColor();
+                if (grabFoodOrderDetails is not null && grabFoodOrderDetails.Count > 0)
+                {
+                    foreach (var grabFoodOrder in grabFoodOrderDetails)
+                    {
+                        List<OrderDetail> orderDetails = new List<OrderDetail>();
+                        bool isFailedOrder = false;
+                        string reason = "";
+                        foreach (var grabFoodItem in grabFoodOrder.Order.ItemInfo.Items)
+                        {
+                            if (storePartner.PartnerProducts.Any(x => x.ProductCode.ToLower().Equals(grabFoodItem.ItemId.ToLower())))
+                            {
+                                isFailedOrder = false;
+                                PartnerProduct partnerProduct = storePartner.PartnerProducts.FirstOrDefault(x => x.ProductCode.ToLower().Equals(grabFoodItem.ItemId.ToLower()));
+                                Log.Information("Partner Product in OrderService: {Data}", partnerProduct);
+                                OrderDetail newOrderDetail = null;
+                                int? parentProductId = null;
+                                if (partnerProduct is not null && partnerProduct.Product.Type.ToLower().Equals("single"))
+                                {
+                                    newOrderDetail = new OrderDetail()
+                                    {
+                                        ProductId = partnerProduct.ProductId,
+                                        SellingPrice = partnerProduct.Price,
+                                        Note = grabFoodItem.Comment,
+                                        Quantity = grabFoodItem.Quantity,
+                                        ExtraOrderDetails = new List<OrderDetail>()
+                                    };
+                                }
+
+                                if (partnerProduct is not null && partnerProduct.Product.Type.ToLower().Equals("parent"))
+                                {
+                                    parentProductId = partnerProduct.Product.ProductId;
+                                }
+
+                                foreach (var modifierGroup in grabFoodItem.ModifierGroups)
+                                {
+                                    foreach (var modifier in modifierGroup.Modifiers)
+                                    {
+                                        if (storePartner.PartnerProducts.Any(x => x.ProductCode.ToLower().Equals(modifier.ModifierId.ToLower())))
+                                        {
+                                            isFailedOrder = false;
+                                            PartnerProduct partnerProductInModifier = null;
+                                            if (storePartner.PartnerProducts.Where(x => x.ProductCode.ToLower().Equals(modifier.ModifierId.ToLower())).Count() >= 1 && parentProductId is not null)
+                                            {
+                                                partnerProductInModifier = storePartner.PartnerProducts.FirstOrDefault(x => x.ProductCode.ToLower().Equals(modifier.ModifierId.ToLower()) && x.Product.ParentProductId == parentProductId);
+                                            }
+                                            else if (storePartner.PartnerProducts.Where(x => x.ProductCode.ToLower().Equals(modifier.ModifierId.ToLower())).Count() == 1 && parentProductId is null)
+                                            {
+                                                partnerProductInModifier = storePartner.PartnerProducts.FirstOrDefault(x => x.ProductCode.ToLower().Equals(modifier.ModifierId.ToLower()));
+                                            }
+
+                                            if (partnerProductInModifier is not null && partnerProductInModifier.Product.Type.ToLower().Equals("child"))
+                                            {
+                                                newOrderDetail = new OrderDetail()
+                                                {
+                                                    ProductId = partnerProductInModifier.ProductId,
+                                                    SellingPrice = partnerProductInModifier.Price,
+                                                    Note = grabFoodItem.Comment,
+                                                    Quantity = grabFoodItem.Quantity,
+                                                    ExtraOrderDetails = new List<OrderDetail>()
+                                                };
+                                            }
+
+                                            if (partnerProductInModifier is not null && partnerProductInModifier.Product.Type.ToLower().Equals("extra"))
+                                            {
+                                                OrderDetail newOrderDetailWithTypeExtra = new OrderDetail()
+                                                {
+                                                    ProductId = partnerProductInModifier.ProductId,
+                                                    SellingPrice = partnerProductInModifier.Price,
+                                                    Note = "",
+                                                    Quantity = modifier.Quantity
+                                                };
+                                                newOrderDetail.ExtraOrderDetails.Add(newOrderDetailWithTypeExtra);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            reason = "There are a few products in the order that cannot be mapped to any products in the system.";
+                                            isFailedOrder = true;
+                                            break;
+                                        }
+                                    }
+                                    if (isFailedOrder)
+                                    {
+                                        break;
+                                    }
+                                }
+                                if (isFailedOrder == false)
+                                {
+                                    orderDetails.Add(newOrderDetail);
+                                }
+                            }
+                            else
+                            {
+                                reason = "There are a few products in the order that cannot be mapped to any products in the system.";
+                                isFailedOrder = true;
+                                break;
+                            }
+                        }
+                        if (isFailedOrder)
+                        {
+                            failedOrders.Add(new FailedGrabFoodOrderDetail()
+                            {
+                                OrderId = grabFoodOrder.Order.OrderId,
+                                Reason = reason,
+                            });
+                        }
+                        else
+                        {
+                            Log.Information("Processing Parse Order Data. Data: {Order}", JsonConvert.SerializeObject(orders));
+                            Order newOrder = new Order()
+                            {
+                                OrderPartnerId = grabFoodOrder.Order.OrderId,
+                                StoreId = store.StoreId,
+                                PartnerId = storePartner.PartnerId,
+                                OrderDetails = orderDetails,
+                                CustomerName = grabFoodOrder.Order.Eater.Name,
+                                CustomerPhone = StringUtil.ChangeNumberPhoneFromGrabFood(grabFoodOrder.Order.Eater.MobileNumber),
+                                Address = grabFoodOrder.Order.Eater.Address.Address,
+                                ShipperName = grabFoodOrder.Order.Driver.Name,
+                                ShipperPhone = StringUtil.ChangeNumberPhoneFromGrabFood(grabFoodOrder.Order.Driver.MobileNumber),
+                                PartnerOrderStatus = grabFoodOrder.Order.Status,
+                                DisplayId = grabFoodOrder.Order.DisplayID,
+                                DeliveryFee = grabFoodOrder.Order.Fare.DeliveryFeeDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.DeliveryFeeDisplay),
+                                FinalTotalPrice = grabFoodOrder.Order.Fare.ReducedPriceDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.ReducedPriceDisplay),
+                                SubTotalPrice = grabFoodOrder.Order.Fare.RevampedSubtotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.RevampedSubtotalDisplay),
+                                TotalDiscount = (grabFoodOrder.Order.Fare.TotalDiscountAmountDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.TotalDiscountAmountDisplay)) +
+                                                (grabFoodOrder.Order.Fare.PromotionDisplay == "" || grabFoodOrder.Order.Fare.PromotionDisplay == "-" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PromotionDisplay)),
+                                Tax = grabFoodOrder.Order.Fare.TaxDisplay == "" ? 0 : float.Parse(grabFoodOrder.Order.Fare.TaxDisplay),
+                                Commission = ((grabFoodOrder.Order.Fare.ReducedPriceDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.ReducedPriceDisplay)) -
+                                             (grabFoodOrder.Order.Fare.PassengerTotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PassengerTotalDisplay))) < 0 ? 0 : ((grabFoodOrder.Order.Fare.ReducedPriceDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.ReducedPriceDisplay)) -
+                                             (grabFoodOrder.Order.Fare.PassengerTotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PassengerTotalDisplay))),
+                                Cutlery = grabFoodOrder.Order.Cutlery,
+                                Note = grabFoodOrder.Order.Eater.Comment,
+                                PaymentMethod = grabFoodOrder.Order.PaymentMethod,
+                                StorePartnerCommission = storePartner.Commission
+                            };
+                            orders.Add(newOrder);
+                        }
+                    }
+                }
+
+                Log.Information("Getting Order. Data: {Order}", JsonConvert.SerializeObject(orders));
+                Log.Information("Getting Failed Order. Data: {Order}", JsonConvert.SerializeObject(failedOrders));
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Parse orders Successfully.");
+                Console.ResetColor();
+
+                return new GetOrdersFromGrabFood()
+                {
+                    Orders = orders,
+                    FailedOrders = failedOrders
+                };
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error in OrderService => Exception: {Message}", ex.Message);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Parse orders Failed.");
+                Console.ResetColor();
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<Tuple<Order, bool>> GetOrderAsync(string partnerOrderId)
         {
             try
@@ -397,6 +569,21 @@ namespace MBKC.Service.Services.Implementations
             {
                 Log.Error("Error in OrderService => Exception: {Message}", ex.Message);
                 return new Tuple<Order, bool>(null, false);
+            }
+        }
+        
+        public async Task<Tuple<Order, bool>> GetOrderAsync_Tool(string partnerOrderId)
+        {
+            try
+            {
+                Log.Information("Processing in OrderService to get order.");
+                Order order = await this._unitOfWork.OrderRepository.GetOrderAsync(partnerOrderId);
+                Log.Information("Getting order successfully in OrderService. => Data: {Data}", JsonConvert.SerializeObject(order));
+                return new Tuple<Order, bool>(order, true);
+            } catch(Exception ex)
+            {
+                Log.Error("Error in OrderService => Exception: {Message}", ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -425,6 +612,32 @@ namespace MBKC.Service.Services.Implementations
             return createdOrder;
         }
         
+        public async Task<Order> CreateOrderAsync_Tool(Order order)
+        {
+            Order createdOrder = null;
+            try
+            {
+                Log.Information("Processing in OrderService to create new order.");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Start create Order.");
+                Console.ResetColor();
+                createdOrder = await this._unitOfWork.OrderRepository.CreateOrderAsync(order);
+                Log.Information("Created order successfully in OrderService.");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Created Order Sucessfully.");
+                Console.ResetColor();
+
+            } catch(Exception ex)
+            {
+                Log.Error("Error in OrderService => Exception: {Message}", ex.Message);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Created Order Failed.");
+                Console.ResetColor();
+                throw new Exception(ex.Message);
+            }
+            return createdOrder;
+        }
+        
         public async Task<Order> UpdateOrderAsync(Order order)
         {
             Order updatedOrder = null;
@@ -445,6 +658,31 @@ namespace MBKC.Service.Services.Implementations
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Updated Order Failed.");
                 Console.ResetColor();
+            }
+            return updatedOrder;
+        }
+        
+        public async Task<Order> UpdateOrderAsync_Tool(Order order)
+        {
+            Order updatedOrder = null;
+            try
+            {
+                Log.Information("Processing in OrderService to update new order.");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Start update order orders.");
+                Console.ResetColor();
+                updatedOrder = await this._unitOfWork.OrderRepository.UpdateOrderAsync(order);
+                Log.Information("Updated order successfully in OrderService.");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Updated Order successfully.");
+                Console.ResetColor();
+            } catch(Exception ex)
+            {
+                Log.Error("Error in OrderService => Exception: {Message}", ex.Message);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Updated Order Failed.");
+                Console.ResetColor();
+                throw new Exception(ex.Message);
             }
             return updatedOrder;
         }

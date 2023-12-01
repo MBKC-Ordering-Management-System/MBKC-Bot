@@ -10,5 +10,6 @@ namespace MBKC.Service.Services.Interfaces
     public interface IStoreService
     {
         public Task<List<Store>> GetStoresAsync();
+        public Task<List<Store>> GetStoresAsync_Tool();
     }
 }
