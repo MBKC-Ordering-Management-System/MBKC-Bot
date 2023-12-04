@@ -5,6 +5,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>logo_mbkc_no_background.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,12 +14,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\logo_mbkc.png">
+    <Resource Include="Images\logo_mbkc.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\logo_mbkc_no_background.png">
+    </Resource>
+    <Resource Include="Images\logo_mbkc_no_background.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
+    <Resource Include="logo_mbkc_no_background.ico" />
     <ProjectReference Include="..\MBKC.Service\MBKC.Service.csproj" />
   </ItemGroup>
 

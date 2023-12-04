@@ -36,7 +36,7 @@ namespace MBKC.WokerService
             this._orderService = orderService;
             this._emailService = emailService;
             this._rabbitMQService = rabbitMQService;
-            _userDeviceService = userDeviceService;
+            this._userDeviceService = userDeviceService;
         }
 
         private static JObject GetWebjobState()
