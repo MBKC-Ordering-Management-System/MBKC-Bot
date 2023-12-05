@@ -20,7 +20,12 @@ namespace MBKC.Repository.Firebases.Repositories
     {
         public FirebaseCloudMessagingRepository()
         {
-
+            FileInfo fileInfo = new FileInfo("admin_sdk.json");
+            string fullPath = fileInfo.FullName;
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile(fileInfo.FullName)
+            });
         }
 
         private FirebaseCloudMessaging GetFirebaseCloudMessaging()
@@ -43,12 +48,7 @@ namespace MBKC.Repository.Firebases.Repositories
         {
             try
             {
-                FileInfo fileInfo = new FileInfo("admin_sdk.json");
-                string fullPath = fileInfo.FullName;
-                FirebaseApp.Create(new AppOptions()
-                {
-                    Credential = GoogleCredential.FromFile(fileInfo.FullName)
-                });
+                
                 FirebaseCloudMessaging firebaseCloudMessaging = GetFirebaseCloudMessaging();
                 Message message = new Message()
                 {

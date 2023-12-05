@@ -186,7 +186,7 @@ namespace MBKCBot.Tool
                                                                 {
                                                                     string title = $"Đã tới thời gian cho đơn hàng đặt trước: {order.DisplayId}";
                                                                     string body = $"Vui lòng bắt tay chuẩn bị đơn hàng ngay.";
-                                                                    await this._userDeviceService.PushNotificationAsync(title, body, updatedOrder.Id, store.UserDevices);
+                                                                    await this._userDeviceService.PushNotificationAsync_Tool(title, body, updatedOrder.Id, store.UserDevices);
                                                                 }
                                                             }
                                                             else if (existedOrder is null)

@@ -14,14 +14,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MBKC.Service\MBKC.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Images\logo_mbkc.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\logo_mbkc_no_background.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="logo_mbkc_no_background.ico" />
-    <ProjectReference Include="..\MBKC.Service\MBKC.Service.csproj" />
+    <Resource Include="logo_mbkc_no_background.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

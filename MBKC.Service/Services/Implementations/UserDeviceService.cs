@@ -50,7 +50,9 @@ namespace MBKC.Service.Services.Implementations
                             if (ex.Message.Contains("Requested entity was not found"))
                             {
                                 // remove fcm token
-                                await this._unitOfWork.UserDeviceRepository.DeleteUserDeviceAsync(idOrder);
+                                await this._unitOfWork.UserDeviceRepository.DeleteUserDeviceAsync(userDeviceId.Value);
+                                UserDevice userDevice = userDevices.SingleOrDefault(x => x.UserDeviceId == userDeviceId);
+                                userDevices.Remove(userDevice);
                                 Log.Information("Deleting User Device in UserDeviceService Successfully.");
                             }
                         }
@@ -89,11 +91,14 @@ namespace MBKC.Service.Services.Implementations
                             {
                                 isFinished = true;
                             }
-                            foreach (var userDevice in userDevices)
+                            if (isFinished == false)
                             {
-                                userDeviceId = userDevice.UserDeviceId;
-                                count++;
-                                this._unitOfWork.FirebaseCloudMessagingRepository.PushNotification(title, body, userDevice.FCMToken, idOrder);
+                                foreach (var userDevice in userDevices)
+                                {
+                                    userDeviceId = userDevice.UserDeviceId;
+                                    count++;
+                                    this._unitOfWork.FirebaseCloudMessagingRepository.PushNotification(title, body, userDevice.FCMToken, idOrder);
+                                }
                             }
                         }
                         catch (Exception ex)
@@ -101,7 +106,9 @@ namespace MBKC.Service.Services.Implementations
                             if (ex.Message.Contains("Requested entity was not found"))
                             {
                                 // remove fcm token
-                                await this._unitOfWork.UserDeviceRepository.DeleteUserDeviceAsync(idOrder);
+                                await this._unitOfWork.UserDeviceRepository.DeleteUserDeviceAsync(userDeviceId.Value);
+                                UserDevice userDevice = userDevices.SingleOrDefault(x => x.UserDeviceId == userDeviceId);
+                                userDevices.Remove(userDevice);
                                 Log.Information("Deleting User Device in UserDeviceService Successfully.");
                             }
                         }
