@@ -33,16 +33,19 @@ namespace MBKC.Service.Services.Implementations
                     {
                         int? userDeviceId = null;
                         try
-                        { 
+                        {
                             if (count == userDevices.Count)
                             {
                                 isFinished = true;
                             }
-                            foreach (var userDevice in userDevices)
+                            if (isFinished == false)
                             {
-                                userDeviceId = userDevice.UserDeviceId;
-                                count++;
-                                this._unitOfWork.FirebaseCloudMessagingRepository.PushNotification(title, body, userDevice.FCMToken, idOrder);
+                                foreach (var userDevice in userDevices)
+                                {
+                                    userDeviceId = userDevice.UserDeviceId;
+                                    count++;
+                                    this._unitOfWork.FirebaseCloudMessagingRepository.PushNotification(title, body, userDevice.FCMToken, idOrder);
+                                }
                             }
                         }
                         catch (Exception ex)
