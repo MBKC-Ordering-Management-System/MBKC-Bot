@@ -204,6 +204,13 @@ namespace MBKCBot.Tool
                                                                     }
                                                                     await this._userDeviceService.PushNotificationAsync_Tool(title, body, createdOrder.Id, store.UserDevices);
                                                                 }
+                                                            } else
+                                                            {
+                                                                MessageBox.Show("Push Order Failed!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                                                this.btnPushOrder.IsEnabled = true;
+                                                                this.btnPushOrder.BorderBrush = Brushes.Black;
+                                                                this.btnPushOrder.Foreground = (Brush)bc.ConvertFrom("#FFEC407A");
+                                                                return;
                                                             }
                                                         }
                                                     }
