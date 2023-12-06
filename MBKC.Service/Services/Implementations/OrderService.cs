@@ -626,7 +626,7 @@ namespace MBKC.Service.Services.Implementations
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Created Order Sucessfully.");
                 Console.ResetColor();
-
+                return createdOrder;
             } catch(Exception ex)
             {
                 Log.Error("Error in OrderService => Exception: {Message}", ex.Message);
@@ -635,7 +635,6 @@ namespace MBKC.Service.Services.Implementations
                 Console.ResetColor();
                 throw new Exception(ex.Message);
             }
-            return createdOrder;
         }
         
         public async Task<Order> UpdateOrderAsync(Order order)
@@ -676,6 +675,7 @@ namespace MBKC.Service.Services.Implementations
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Updated Order successfully.");
                 Console.ResetColor();
+                return updatedOrder;
             } catch(Exception ex)
             {
                 Log.Error("Error in OrderService => Exception: {Message}", ex.Message);
@@ -684,7 +684,6 @@ namespace MBKC.Service.Services.Implementations
                 Console.ResetColor();
                 throw new Exception(ex.Message);
             }
-            return updatedOrder;
         }
     }
 }
