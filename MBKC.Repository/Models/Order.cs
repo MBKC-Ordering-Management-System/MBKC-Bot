@@ -18,9 +18,10 @@ namespace MBKC.Repository.Models
         public string PaymentMethod { get; set; }
         public decimal DeliveryFee { get; set; }
         public decimal SubTotalPrice { get; set; }
-        public decimal TotalDiscount { get; set; }
+        public decimal TotalStoreDiscount { get; set; }
         public decimal FinalTotalPrice { get; set; }
-        public decimal Commission { get; set; }
+        public decimal PromotionPrice { get; set; }
+        public float TaxPartnerCommission { get; set; }
         public float Tax { get; set; }
         public string PartnerOrderStatus { get; set; }
         public int PartnerId { get; set; }

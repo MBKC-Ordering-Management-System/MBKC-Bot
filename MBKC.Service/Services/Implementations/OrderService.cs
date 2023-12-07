@@ -64,10 +64,20 @@ namespace MBKC.Service.Services.Implementations
                         List<OrderDetail> orderDetails = new List<OrderDetail>();
                         bool isFailedOrder = false;
                         string reason = "";
+                        decimal totalDiscountItems = 0;
                         foreach (var grabFoodItem in grabFoodOrder.Order.ItemInfo.Items)
                         {
                             if (storePartner.PartnerProducts.Any(x => x.ProductCode.ToLower().Equals(grabFoodItem.ItemId.ToLower())))
                             {
+                                decimal discountPriceItem = 0;
+                                if (grabFoodItem.DiscountInfo is not null && grabFoodItem.DiscountInfo.Count > 0)
+                                {
+                                    foreach (var discount in grabFoodItem.DiscountInfo)
+                                    {
+                                        discountPriceItem += discount.ItemDiscountPriceDisplay == "" ? 0 : decimal.Parse(discount.ItemDiscountPriceDisplay);
+                                    }
+                                    totalDiscountItems += discountPriceItem;
+                                }
                                 isFailedOrder = false;
                                 PartnerProduct partnerProduct = storePartner.PartnerProducts.FirstOrDefault(x => x.ProductCode.ToLower().Equals(grabFoodItem.ItemId.ToLower()));
                                 Log.Information("Partner Product in OrderService: {Data}", partnerProduct);
@@ -81,6 +91,7 @@ namespace MBKC.Service.Services.Implementations
                                         SellingPrice = partnerProduct.Price,
                                         Note = grabFoodItem.Comment,
                                         Quantity = grabFoodItem.Quantity,
+                                        DiscountPrice = discountPriceItem,
                                         ExtraOrderDetails = new List<OrderDetail>()
                                     };
                                 }
@@ -114,6 +125,7 @@ namespace MBKC.Service.Services.Implementations
                                                     SellingPrice = partnerProductInModifier.Price,
                                                     Note = grabFoodItem.Comment,
                                                     Quantity = grabFoodItem.Quantity,
+                                                    DiscountPrice = discountPriceItem,
                                                     ExtraOrderDetails = new List<OrderDetail>()
                                                 };
                                             }
@@ -125,6 +137,7 @@ namespace MBKC.Service.Services.Implementations
                                                     ProductId = partnerProductInModifier.ProductId,
                                                     SellingPrice = partnerProductInModifier.Price,
                                                     Note = "",
+                                                    DiscountPrice = 0,
                                                     Quantity = modifier.Quantity
                                                 };
                                                 newOrderDetail.ExtraOrderDetails.Add(newOrderDetailWithTypeExtra);
@@ -181,11 +194,10 @@ namespace MBKC.Service.Services.Implementations
                                 DeliveryFee = grabFoodOrder.Order.Fare.DeliveryFeeDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.DeliveryFeeDisplay),
                                 FinalTotalPrice = grabFoodOrder.Order.Fare.ReducedPriceDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.ReducedPriceDisplay),
                                 SubTotalPrice = grabFoodOrder.Order.Fare.RevampedSubtotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.RevampedSubtotalDisplay),
-                                TotalDiscount = (grabFoodOrder.Order.Fare.TotalDiscountAmountDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.TotalDiscountAmountDisplay)) +
-                                                (grabFoodOrder.Order.Fare.PromotionDisplay == "" || grabFoodOrder.Order.Fare.PromotionDisplay == "-" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PromotionDisplay)),
+                                TotalStoreDiscount = (grabFoodOrder.Order.Fare.TotalDiscountAmountDisplay == "" ? 0 : (decimal.Parse(grabFoodOrder.Order.Fare.TotalDiscountAmountDisplay)) - totalDiscountItems),
+                                PromotionPrice = (grabFoodOrder.Order.Fare.PromotionDisplay == "" || grabFoodOrder.Order.Fare.PromotionDisplay == "-" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PromotionDisplay)),
                                 Tax = grabFoodOrder.Order.Fare.TaxDisplay == "" ? 0 : float.Parse(grabFoodOrder.Order.Fare.TaxDisplay),
-                                Commission = ((grabFoodOrder.Order.Fare.ReducedPriceDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.ReducedPriceDisplay)) -
-                                             (grabFoodOrder.Order.Fare.PassengerTotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PassengerTotalDisplay))),
+                                TaxPartnerCommission = storePartner.Partner.TaxCommission,
                                 Cutlery = grabFoodOrder.Order.Cutlery,
                                 Note = grabFoodOrder.Order.Eater.Comment,
                                 PaymentMethod = grabFoodOrder.Order.PaymentMethod,
@@ -229,10 +241,20 @@ namespace MBKC.Service.Services.Implementations
                         List<OrderDetail> orderDetails = new List<OrderDetail>();
                         bool isFailedOrder = false;
                         string reason = "";
+                        decimal totalDiscountItems = 0;
                         foreach (var grabFoodItem in grabFoodOrder.Order.ItemInfo.Items)
                         {
                             if (storePartner.PartnerProducts.Any(x => x.ProductCode.ToLower().Equals(grabFoodItem.ItemId.ToLower())))
                             {
+                                decimal discountPriceItem = 0;
+                                if (grabFoodItem.DiscountInfo is not null && grabFoodItem.DiscountInfo.Count > 0)
+                                {
+                                    foreach (var discount in grabFoodItem.DiscountInfo)
+                                    {
+                                        discountPriceItem += discount.ItemDiscountPriceDisplay == "" ? 0 : decimal.Parse(discount.ItemDiscountPriceDisplay);
+                                    }
+                                    totalDiscountItems += discountPriceItem;
+                                }
                                 isFailedOrder = false;
                                 PartnerProduct partnerProduct = storePartner.PartnerProducts.FirstOrDefault(x => x.ProductCode.ToLower().Equals(grabFoodItem.ItemId.ToLower()));
                                 Log.Information("Partner Product in OrderService: {Data}", partnerProduct);
@@ -246,6 +268,7 @@ namespace MBKC.Service.Services.Implementations
                                         SellingPrice = partnerProduct.Price,
                                         Note = grabFoodItem.Comment,
                                         Quantity = grabFoodItem.Quantity,
+                                        DiscountPrice = discountPriceItem,
                                         ExtraOrderDetails = new List<OrderDetail>()
                                     };
                                 }
@@ -280,6 +303,7 @@ namespace MBKC.Service.Services.Implementations
                                                     SellingPrice = partnerProductInModifier.Price,
                                                     Note = grabFoodItem.Comment,
                                                     Quantity = grabFoodItem.Quantity,
+                                                    DiscountPrice = discountPriceItem,
                                                     ExtraOrderDetails = new List<OrderDetail>()
                                                 };
                                             }
@@ -291,6 +315,7 @@ namespace MBKC.Service.Services.Implementations
                                                     ProductId = partnerProductInModifier.ProductId,
                                                     SellingPrice = partnerProductInModifier.Price,
                                                     Note = "",
+                                                    DiscountPrice = 0,
                                                     Quantity = modifier.Quantity
                                                 };
                                                 newOrderDetail.ExtraOrderDetails.Add(newOrderDetailWithTypeExtra);
@@ -346,13 +371,11 @@ namespace MBKC.Service.Services.Implementations
                                 DisplayId = grabFoodOrder.Order.DisplayID,
                                 DeliveryFee = grabFoodOrder.Order.Fare.DeliveryFeeDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.DeliveryFeeDisplay),
                                 FinalTotalPrice = grabFoodOrder.Order.Fare.ReducedPriceDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.ReducedPriceDisplay),
-                                SubTotalPrice = grabFoodOrder.Order.Fare.RevampedSubtotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.RevampedSubtotalDisplay),
-                                TotalDiscount = (grabFoodOrder.Order.Fare.TotalDiscountAmountDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.TotalDiscountAmountDisplay)) +
-                                                (grabFoodOrder.Order.Fare.PromotionDisplay == "" || grabFoodOrder.Order.Fare.PromotionDisplay == "-" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PromotionDisplay)),
+                                SubTotalPrice = grabFoodOrder.Order.Fare.RevampedSubtotalDisplay == "" ? 0 : (decimal.Parse(grabFoodOrder.Order.Fare.RevampedSubtotalDisplay) - totalDiscountItems),
+                                TotalStoreDiscount = (grabFoodOrder.Order.Fare.TotalDiscountAmountDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.TotalDiscountAmountDisplay)),
+                                PromotionPrice = (grabFoodOrder.Order.Fare.PromotionDisplay == "" || grabFoodOrder.Order.Fare.PromotionDisplay == "-" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PromotionDisplay)),
                                 Tax = grabFoodOrder.Order.Fare.TaxDisplay == "" ? 0 : float.Parse(grabFoodOrder.Order.Fare.TaxDisplay),
-                                Commission = ((grabFoodOrder.Order.Fare.ReducedPriceDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.ReducedPriceDisplay)) -
-                                             (grabFoodOrder.Order.Fare.PassengerTotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PassengerTotalDisplay))) < 0 ? 0: ((grabFoodOrder.Order.Fare.ReducedPriceDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.ReducedPriceDisplay)) -
-                                             (grabFoodOrder.Order.Fare.PassengerTotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PassengerTotalDisplay))),
+                                TaxPartnerCommission = storePartner.Partner.TaxCommission,
                                 Cutlery = grabFoodOrder.Order.Cutlery,
                                 Note = grabFoodOrder.Order.Eater.Comment,
                                 PaymentMethod = grabFoodOrder.Order.PaymentMethod,
@@ -401,10 +424,20 @@ namespace MBKC.Service.Services.Implementations
                         List<OrderDetail> orderDetails = new List<OrderDetail>();
                         bool isFailedOrder = false;
                         string reason = "";
+                        decimal totalDiscountItems = 0;
                         foreach (var grabFoodItem in grabFoodOrder.Order.ItemInfo.Items)
                         {
                             if (storePartner.PartnerProducts.Any(x => x.ProductCode.ToLower().Equals(grabFoodItem.ItemId.ToLower())))
                             {
+                                decimal discountPriceItem = 0;
+                                if(grabFoodItem.DiscountInfo is not null && grabFoodItem.DiscountInfo.Count > 0)
+                                {
+                                    foreach (var discount in grabFoodItem.DiscountInfo)
+                                    {
+                                        discountPriceItem += discount.ItemDiscountPriceDisplay == "" ? 0 : decimal.Parse(discount.ItemDiscountPriceDisplay);
+                                    }
+                                    totalDiscountItems += discountPriceItem;
+                                }
                                 isFailedOrder = false;
                                 PartnerProduct partnerProduct = storePartner.PartnerProducts.FirstOrDefault(x => x.ProductCode.ToLower().Equals(grabFoodItem.ItemId.ToLower()));
                                 Log.Information("Partner Product in OrderService: {Data}", partnerProduct);
@@ -418,6 +451,7 @@ namespace MBKC.Service.Services.Implementations
                                         SellingPrice = partnerProduct.Price,
                                         Note = grabFoodItem.Comment,
                                         Quantity = grabFoodItem.Quantity,
+                                        DiscountPrice = discountPriceItem,
                                         ExtraOrderDetails = new List<OrderDetail>()
                                     };
                                 }
@@ -452,6 +486,7 @@ namespace MBKC.Service.Services.Implementations
                                                     SellingPrice = partnerProductInModifier.Price,
                                                     Note = grabFoodItem.Comment,
                                                     Quantity = grabFoodItem.Quantity,
+                                                    DiscountPrice = discountPriceItem,
                                                     ExtraOrderDetails = new List<OrderDetail>()
                                                 };
                                             }
@@ -463,6 +498,7 @@ namespace MBKC.Service.Services.Implementations
                                                     ProductId = partnerProductInModifier.ProductId,
                                                     SellingPrice = partnerProductInModifier.Price,
                                                     Note = "",
+                                                    DiscountPrice = 0,
                                                     Quantity = modifier.Quantity
                                                 };
                                                 newOrderDetail.ExtraOrderDetails.Add(newOrderDetailWithTypeExtra);
@@ -519,12 +555,10 @@ namespace MBKC.Service.Services.Implementations
                                 DeliveryFee = grabFoodOrder.Order.Fare.DeliveryFeeDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.DeliveryFeeDisplay),
                                 FinalTotalPrice = grabFoodOrder.Order.Fare.ReducedPriceDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.ReducedPriceDisplay),
                                 SubTotalPrice = grabFoodOrder.Order.Fare.RevampedSubtotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.RevampedSubtotalDisplay),
-                                TotalDiscount = (grabFoodOrder.Order.Fare.TotalDiscountAmountDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.TotalDiscountAmountDisplay)) +
-                                                (grabFoodOrder.Order.Fare.PromotionDisplay == "" || grabFoodOrder.Order.Fare.PromotionDisplay == "-" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PromotionDisplay)),
+                                TotalStoreDiscount = (grabFoodOrder.Order.Fare.TotalDiscountAmountDisplay == "" ? 0 : (decimal.Parse(grabFoodOrder.Order.Fare.TotalDiscountAmountDisplay)) - totalDiscountItems),
+                                PromotionPrice = (grabFoodOrder.Order.Fare.PromotionDisplay == "" || grabFoodOrder.Order.Fare.PromotionDisplay == "-" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PromotionDisplay)),
                                 Tax = grabFoodOrder.Order.Fare.TaxDisplay == "" ? 0 : float.Parse(grabFoodOrder.Order.Fare.TaxDisplay),
-                                Commission = ((grabFoodOrder.Order.Fare.ReducedPriceDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.ReducedPriceDisplay)) -
-                                             (grabFoodOrder.Order.Fare.PassengerTotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PassengerTotalDisplay))) < 0 ? 0 : ((grabFoodOrder.Order.Fare.ReducedPriceDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.ReducedPriceDisplay)) -
-                                             (grabFoodOrder.Order.Fare.PassengerTotalDisplay == "" ? 0 : decimal.Parse(grabFoodOrder.Order.Fare.PassengerTotalDisplay))),
+                                TaxPartnerCommission = storePartner.Partner.TaxCommission,
                                 Cutlery = grabFoodOrder.Order.Cutlery,
                                 Note = grabFoodOrder.Order.Eater.Comment,
                                 PaymentMethod = grabFoodOrder.Order.PaymentMethod,

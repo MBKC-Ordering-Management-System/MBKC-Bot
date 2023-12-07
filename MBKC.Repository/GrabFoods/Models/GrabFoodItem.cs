@@ -14,5 +14,6 @@ namespace MBKC.Repository.GrabFoods.Models
         public int Quantity { get; set; }
         public string Comment { get; set; }
         public List<GrabFoodModifierGroup> ModifierGroups { get; set; }
+        public List<GrabFoodDiscount> DiscountInfo { get; set; }
     }
 }
